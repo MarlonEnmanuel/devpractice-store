@@ -18,11 +18,14 @@ namespace Store.Api.Controllers
         [Route("create")]
         public void CrearCategories()
         {
-            _context.Categories.Add(new Category()
+            if (_context.Categories.FirstOrDefault(c => c.Name == "Mascotas") == null)
             {
-                Name = "Mascotas",
-                Description = "Comida o articulos para mascotas",
-            });
+                _context.Categories.Add(new Category()
+                {
+                    Name = "Mascotas",
+                    Description = "Comida o articulos para mascotas",
+                });
+            }
             _context.Categories.Add(new Category()
             {
                 Name = "Lacteos",
