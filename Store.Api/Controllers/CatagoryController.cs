@@ -18,7 +18,7 @@ namespace Store.Api.Controllers
         [Route("create")]
         public void CrearCategories()
         {
-            if (!_context.Categories.Any(c => c.Name == "Mascotas"))
+            if (_context.Categories.FirstOrDefault(c => c.Name == "Mascotas") == null)
             {
                 _context.Categories.Add(new Category()
                 {
