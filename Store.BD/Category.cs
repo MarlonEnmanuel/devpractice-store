@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Store.Db
+﻿namespace Store.Db
 {
     public class Category
     {

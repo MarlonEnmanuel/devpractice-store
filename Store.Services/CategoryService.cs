@@ -6,16 +6,16 @@ namespace Store.Services
     public class CategoryService : ICategoryService
     {
 
-        StoreDBContext _context;
+        private readonly StoreDBContext _context;
 
         public CategoryService(StoreDBContext dbcontext)
         {
             _context = dbcontext;
         }
 
-        public IEnumerable<Category> Get()
+        public IList<Category> Get()
         {
-            return _context.Categories;
+            return _context.Categories.ToList();
         }
 
         public void Save(Category category)
@@ -28,7 +28,7 @@ namespace Store.Services
         {
             var CategoryNow = _context.Categories.Find(id);
 
-            if (CategoryNow != null)
+            if (CategoryNow != null && CategoryNow.Id == category.Id)
             {
                 CategoryNow.Name = category.Name;
                 CategoryNow.Description = category.Description;
@@ -50,7 +50,7 @@ namespace Store.Services
     }
     public interface ICategoryService
     {
-        IEnumerable<Category> Get();
+        IList<Category> Get();
 
         void Save(Category category);
 

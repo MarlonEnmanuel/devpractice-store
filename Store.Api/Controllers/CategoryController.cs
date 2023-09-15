@@ -5,15 +5,15 @@ using Store.Services;
 namespace Store.Api.Controllers
 {
     [ApiController]
-    [Route("api/[Controller]")]
+    [Route("api/category")]
     public class CategoryController : ControllerBase
     {
 
-        ICategoryService categoryService;
+        private readonly ICategoryService categoryService;
 
-        public CategoryController(ICategoryService Service)
+        public CategoryController(ICategoryService service)
         {
-            categoryService = Service;
+            categoryService = service;
         }
 
         [HttpGet]
