@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Store.Db;
+using Store.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +16,14 @@ builder.Services.AddDbContext<StoreDBContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetService<StoreDBContext>();
+    //context.Database.EnsureDeleted();
     context.Database.EnsureCreated();
 }
 
