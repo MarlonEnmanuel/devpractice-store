@@ -8,6 +8,10 @@
         public string Description { get; set; }
         public decimal Price { get; set; }
 
+        public int Stock { get; set; }
+
+        public DateTime expirationDate { get; set; }
+
         // foreigns
         public virtual ICollection<Category>? Categories { get; set; }
     }
