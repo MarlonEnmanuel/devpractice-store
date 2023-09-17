@@ -19,7 +19,7 @@ namespace Store.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(categoryService.Get());
+            return Ok(categoryService.Get()); 
         }
 
         [HttpPost]
