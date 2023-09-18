@@ -32,7 +32,7 @@ namespace Store.Services
             {
                 CategoryNow.Name = category.Name;
                 CategoryNow.Description = category.Description;
-
+                  
                 _context.SaveChanges();
             }
         }
