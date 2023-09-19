@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Store.Db;
+using Store.Db.dto;
+using Store.Services.Interface;
+using static Store.Db.Helper.Constants;
 
 namespace Store.Api.Controllers
 {
@@ -8,54 +10,44 @@ namespace Store.Api.Controllers
     [Route("provider")]
     public class ProviderController : ControllerBase
     {
-        private StoreDBContext _context;
+        private readonly IProviderService _providerService;
 
-        public ProviderController(StoreDBContext context)
+        public ProviderController(IProviderService providerService)
         {
-            _context = context;
+            _providerService = providerService;
         }
 
         [HttpPost]
-        public void CreateProviders(Provider provider)
+        public Response PostProvider(Provider provider)
         {
-            _context.Providers.Add(provider);
-            _context.SaveChanges();
+            _providerService.Save(provider);
+            return new Response { Code = 200, Status = STATUS_SUCCESS, Data = STATUS_SUCCESS };
         }
 
         [HttpGet]
-        public List<Provider> GetProviders()
+        public Response GetProviders()
         {
-            return _context.Providers.ToList();
+            return new Response { Code = 200, Status = STATUS_SUCCESS, Data = _providerService.Get() };
         }
 
         [HttpGet("{idProvider}")]
-        public Provider? GetProvidersById(int idProvider)
+        public Response GetProvidersById(int idProvider)
         {
-            return _context.Providers.ToList().Where(e => e.Id == idProvider).FirstOrDefault();
+            return new Response { Code = 200, Status = STATUS_SUCCESS, Data = _providerService.GetById(idProvider) };
         }
 
         [HttpPut("{idProvider}")]
-        public void PutProviders(int idProvider, Provider provider)
+        public Response PutProviders(int idProvider, Provider provider)
         {
-            Provider oProvider = _context.Providers.ToList().Where(e => e.Id == idProvider).FirstOrDefault();
-            if(oProvider != null)
-            {
-                oProvider.RucProvider = provider.RucProvider;
-                oProvider.BusinessName = provider.BusinessName;
-                _context.Entry(oProvider).State = EntityState.Modified;
-                _context.SaveChanges();
-            }
+            _providerService.Update(idProvider, provider);
+            return new Response { Code = 200, Status = STATUS_SUCCESS, Data = STATUS_SUCCESS };
         }
 
         [HttpDelete]
-        public void DeleteProviders(int idProvider)
+        public Response DeleteProviders(int idProvider)
         {
-            Provider oProvider = _context.Providers.ToList().Where(e => e.Id == idProvider).FirstOrDefault();
-            if(oProvider != null)
-            {
-                _context.Providers.Remove(oProvider);
-                _context.SaveChanges();
-            }
+            _providerService.Delete(idProvider);
+            return new Response { Code = 200, Status = STATUS_SUCCESS, Data = STATUS_SUCCESS };
         }
 
     }
