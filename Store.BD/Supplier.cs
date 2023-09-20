@@ -4,13 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.Db
 {
-    public class Provider
+    public class Supplier
     {
-        [Key]
-        public virtual int Id { get; set; }
-        public string RucProvider { get; set; }
+        public int Id { get; set; }
+        public string RucSupplier { get; set; }
         public string BusinessName { get; set; }
-        public int CategoryProvider { get; set; }
+        public virtual ICollection<Product>? ProductSupplier { get; set; }
 
     }
 }
