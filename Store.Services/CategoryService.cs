@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using Store.Db;
+using Store.Services.Dtos;
 
 namespace Store.Services
 {
@@ -7,20 +8,24 @@ namespace Store.Services
     {
 
         private readonly StoreDBContext _context;
+        private readonly IMapper _mapper;
 
-        public CategoryService(StoreDBContext dbcontext)
+        public CategoryService(StoreDBContext dbcontext, IMapper mapper)
         {
             _context = dbcontext;
+            _mapper = mapper;
         }
 
-        public IList<Category> Get()
+        public IList<CategoryDto> Get()
         {
-            return _context.Categories.ToList();
+            var list = _context.Categories.ToList();
+            return _mapper.Map<IList<CategoryDto>>(list);
         }
 
-        public void Save(Category category)
+        public void Save(SaveCategoryDto dto)
         {
-            _context.Add(category);
+            var category = _mapper.Map<Category>(dto);
+            _context.Categories.Add(category);
             _context.SaveChanges();
         }
 
@@ -32,7 +37,7 @@ namespace Store.Services
             {
                 CategoryNow.Name = category.Name;
                 CategoryNow.Description = category.Description;
-                  
+
                 _context.SaveChanges();
             }
         }
@@ -50,9 +55,9 @@ namespace Store.Services
     }
     public interface ICategoryService
     {
-        IList<Category> Get();
+        IList<CategoryDto> Get();
 
-        void Save(Category category);
+        void Save(SaveCategoryDto category);
 
         void Update(int id, Category category);
 
