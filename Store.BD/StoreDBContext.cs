@@ -7,6 +7,7 @@ namespace Store.Db
         public StoreDBContext(DbContextOptions options) : base(options) { }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -18,6 +19,16 @@ namespace Store.Db
                 Category.Property(p => p.Name).IsRequired().HasMaxLength(30);
                 Category.Property(p => p.Description).IsRequired(false).HasMaxLength(100);
             });
+
+            modelBuilder.Entity<Brand>(Brand =>
+            {
+                Brand.ToTable("Brand");
+                Brand.HasKey(p => p.Id);
+
+                Brand.Property(p => p.Name).IsRequired().HasMaxLength(30);
+                Brand.Property(p => p.Description).IsRequired(false).HasMaxLength(100);
+            });
         }
+
     }
 }

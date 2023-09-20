@@ -43,4 +43,45 @@ namespace Store.Api.Controllers
             return Ok();
         }
     }
+
+    [ApiController]
+    [Route("api/brand")]
+    public class BrandController : ControllerBase
+    {
+
+        private readonly IBrandService brandService;
+
+        public BrandController(IBrandService brand)
+        {
+            brandService = brand;
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(brandService.Get());
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] Brand brand)
+        {
+            brandService.Save(brand);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Brand brand)
+        {
+            brandService.Update(id, brand);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            brandService.Delete(id);
+            return Ok();
+        }
+    }
+
 }
