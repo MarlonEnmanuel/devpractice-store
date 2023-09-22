@@ -31,9 +31,9 @@ namespace Store.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Category category)
+        public IActionResult Put(int id, [FromBody] SaveCategoryDto dto)
         {
-            categoryService.Update(id, category);
+            categoryService.Update(id, dto);
             return Ok();
         }
 

@@ -29,14 +29,14 @@ namespace Store.Services
             _context.SaveChanges();
         }
 
-        public void Update(int id, Category category)
+        public void Update(int id, SaveCategoryDto dto)
         {
             var CategoryNow = _context.Categories.Find(id);
 
-            if (CategoryNow != null && CategoryNow.Id == category.Id)
+            if (CategoryNow != null && CategoryNow.Id == dto.Id)
             {
-                CategoryNow.Name = category.Name;
-                CategoryNow.Description = category.Description;
+                CategoryNow.Name = dto.Name;
+                CategoryNow.Description = dto.Description;
 
                 _context.SaveChanges();
             }
@@ -59,7 +59,7 @@ namespace Store.Services
 
         void Save(SaveCategoryDto category);
 
-        void Update(int id, Category category);
+        void Update(int id, SaveCategoryDto category);
 
         void Delete(int id);
 
