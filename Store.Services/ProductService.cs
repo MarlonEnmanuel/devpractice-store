@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Store.Services
 {
-    public class ProductService : IProductService
+    public class ProductService: IProductService
     {
         private readonly StoreDBContext _context;
 
@@ -17,9 +17,10 @@ namespace Store.Services
             _context = context;
         }
 
-        public IList<Product> Get()
+        public IList<Product> GetList()
         {
-            return _context.Products.ToList();
+            return _context.Products.Include(p => p.Categories)
+                                    .ToList();
         }
 
         public void Save(Product product)
@@ -27,6 +28,10 @@ namespace Store.Services
             var products = _context.Products.Find(product.Id);
             if (products == null)
             {
+                var categoryIds = product.Categories?.Select(c => c.Id).ToArray();
+                var categoryList = _context.Categories.Where(c=> categoryIds.Contains(c.Id)).ToList();
+                product.Categories = categoryList;
+
                 _context.Add(product);
                 _context.SaveChanges();
             }
@@ -42,14 +47,25 @@ namespace Store.Services
 
         public void Delete(int id)
         {
-            var producto_encontrado = _context.Products.Find(id);
-            if (producto_encontrado != null)
+            var product = _context.Products.Find(id);
+            if (product != null)
             {
-                _context.Remove(producto_encontrado);
+                _context.Remove(product);
 
                 _context.SaveChanges();
             }
 
         }
+    }
+
+    public interface IProductService
+    {
+        IList<Product> GetList();
+
+        void Save(Product product);
+
+        void Update(int id, Product product);
+
+        void Delete(int id);
     }
 }
