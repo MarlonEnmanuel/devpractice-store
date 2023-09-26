@@ -31,13 +31,11 @@ namespace Store.Services
 
         public void Update(int id, SaveCategoryDto dto)
         {
-            var CategoryNow = _context.Categories.Find(id);
+            var currentCategory = _context.Categories.Find(id);
 
-            if (CategoryNow != null && CategoryNow.Id == dto.Id)
+            if (currentCategory != null && currentCategory.Id == dto.Id)
             {
-                CategoryNow.Name = dto.Name;
-                CategoryNow.Description = dto.Description;
-
+                _mapper.Map(dto, currentCategory);
                 _context.SaveChanges();
             }
         }
