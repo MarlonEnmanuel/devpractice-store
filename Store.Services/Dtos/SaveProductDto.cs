@@ -1,9 +1,11 @@
-﻿namespace Store.Db
+﻿
+namespace Store.Services.Dtos
 {
-    public class Product
+    public class SaveProductDto
     {
-        public int Id { get; set; }
-       
+
+        public int? Id { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
@@ -11,8 +13,5 @@
         public int Stock { get; set; }
 
         public DateTime expirationDate { get; set; }
-
-        // foreigns
-        public virtual ICollection<Category>? Categories { get; set; }
     }
 }

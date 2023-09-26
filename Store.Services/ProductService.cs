@@ -1,70 +1,80 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using Store.Db;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Store.Services.Dtos;
+
 
 namespace Store.Services
 {
     public class ProductService: IProductService
     {
         private readonly StoreDBContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductService(StoreDBContext context)
+        public ProductService(StoreDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public IList<Product> GetList()
+        public IList<ProductDto> Get()
         {
-            return _context.Products.Include(p => p.Categories)
-                                    .ToList();
+            var list = _context.Products.ToList();
+            return _mapper.Map<IList<ProductDto>>(list); 
         }
 
-        public void Save(Product product)
+        public void Save(SaveProductDto dto)
         {
-            var products = _context.Products.Find(product.Id);
-            if (products == null)
+            var product = _mapper.Map<Product>(dto);
+           
+
+                _context.Products.Add(product);
+                _context.SaveChanges();
+            
+        }
+
+        public void Update(int id, SaveProductDto product)
+        {
+
+            var ProductNow = _context.Products.Find(id);
+
+            if (ProductNow != null && ProductNow.Id == product.Id)
             {
-                var categoryIds = product.Categories?.Select(c => c.Id).ToArray();
-                var categoryList = _context.Categories.Where(c=> categoryIds.Contains(c.Id)).ToList();
-                product.Categories = categoryList;
+                ProductNow.Name = product.Name;
+                ProductNow.Description = product.Description;
+                ProductNow.Price = product.Price;
+                ProductNow.Stock = product.Stock;
+               ProductNow.expirationDate = product.expirationDate;
 
-                _context.Add(product);
+
                 _context.SaveChanges();
             }
-        }
-
-        public void Update(int id, Product product)
-        {
-            _context.Entry(product).State = EntityState.Modified;
-
-            _context.SaveChanges();
-
+          
         }
 
         public void Delete(int id)
         {
-            var product = _context.Products.Find(id);
-            if (product != null)
-            {
-                _context.Remove(product);
+       
 
+            var productNow = _context.Products.Find(id);
+
+            if (productNow != null)
+            {
+                _context.Remove(productNow);
                 _context.SaveChanges();
             }
+
+
 
         }
     }
 
     public interface IProductService
     {
-        IList<Product> GetList();
+        IList<ProductDto> Get();
 
-        void Save(Product product);
+        void Save(SaveProductDto product);
 
-        void Update(int id, Product product);
+        void Update(int id, SaveProductDto product);
 
         void Delete(int id);
     }
