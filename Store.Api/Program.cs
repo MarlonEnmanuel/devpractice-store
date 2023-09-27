@@ -1,3 +1,5 @@
+
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Store.Db;
 using Store.Services;
@@ -22,6 +24,7 @@ builder.Services.AddDbContext<StoreDBContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(Assembly.Load("Store.Services"));
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("Store.Services"));
 
 // Add Services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
