@@ -6,7 +6,6 @@ namespace Store.Services
 {
     public class CategoryService : ICategoryService
     {
-
         private readonly StoreDBContext _context;
         private readonly IMapper _mapper;
 
@@ -53,6 +52,7 @@ namespace Store.Services
             }
         }
     }
+    
     public interface ICategoryService
     {
         IList<CategoryDto> Get();
@@ -62,6 +62,5 @@ namespace Store.Services
         void Update(int id, Category category);
 
         void Delete(int id);
-
     }
 }

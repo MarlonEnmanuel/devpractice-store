@@ -9,7 +9,6 @@ namespace Store.Api.Controllers
     [Route("api/category")]
     public class CategoryController : ControllerBase
     {
-
         private readonly ICategoryService categoryService;
 
         public CategoryController(ICategoryService service)

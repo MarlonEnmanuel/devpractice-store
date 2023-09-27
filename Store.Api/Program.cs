@@ -26,6 +26,7 @@ builder.Services.AddAutoMapper(Assembly.Load("Store.Services"));
 // Add Services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 
 var app = builder.Build();
 
