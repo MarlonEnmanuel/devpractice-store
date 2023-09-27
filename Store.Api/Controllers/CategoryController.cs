@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.Db;
 using Store.Services;
+using Store.Services.Dtos;
 
 namespace Store.Api.Controllers
 {
@@ -19,13 +20,13 @@ namespace Store.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(categoryService.Get()); 
+            return Ok(categoryService.Get());
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Category category)
+        public IActionResult Post([FromBody] SaveCategoryDto dto)
         {
-            categoryService.Save(category);
+            categoryService.Save(dto);
             return Ok();
         }
 
