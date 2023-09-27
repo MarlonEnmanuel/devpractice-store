@@ -1,13 +1,8 @@
 ﻿using Store.Db;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Store.Services
 {
-    internal class BrandService
+    public class BrandService : IBrandService
     {
         private readonly StoreDBContext _context;
 
@@ -51,6 +46,7 @@ namespace Store.Services
             }
         }
     }
+    
     public interface IBrandService
     {
         IList<Brand> Get();
@@ -60,7 +56,6 @@ namespace Store.Services
         void Update(int id, Brand brand);
 
         void Delete(int id);
-
     }
 }
 
