@@ -28,13 +28,13 @@ namespace Store.Api.Controllers
             return Ok(_supplierService.Get());
         }
 
-        [HttpGet("{idProvider}")]
-        public IActionResult GetProvidersById(int idProvider)
+        [HttpGet("{idSupplier}")]
+        public IActionResult GetProvidersById(int idSupplier)
         {
-            return Ok(_supplierService.GetById(idProvider));
+            return Ok(_supplierService.GetById(idSupplier));
         }
 
-        [HttpPut("{idProvider}")]
+        [HttpPut("{idSupplier}")]
         public IActionResult PutProviders(int idSupplier, Supplier supplier)
         {
             _supplierService.Update(idSupplier, supplier);
