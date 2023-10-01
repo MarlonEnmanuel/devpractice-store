@@ -1,5 +1,4 @@
-﻿using Store.Db;
-﻿using AutoMapper;
+﻿﻿using AutoMapper;
 using Store.Db;
 using Store.Services.Dtos;
 
