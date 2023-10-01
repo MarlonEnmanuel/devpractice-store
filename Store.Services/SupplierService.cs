@@ -16,7 +16,7 @@ namespace Store.Services
 
         public void Delete(int idSupplier)
         {
-            Supplier oSupplier = getProviderById(idSupplier);
+            Supplier oSupplier = GetProviderById(idSupplier);
             if (oSupplier != null)
             {
                 _context.Suppliers.Remove(oSupplier);
@@ -26,12 +26,12 @@ namespace Store.Services
 
         public IList<Supplier> Get()
         {
-            return _context.Suppliers.Include(p => p.ProductSupplier).ToList();
+            return _context.Suppliers.Include(p => p.Products).ToList();
         }
 
         public Supplier GetById(int idSupplier)
         {
-            return getProviderById(idSupplier);
+            return GetProviderById(idSupplier);
         }
 
         public void Save(Supplier supplier)
@@ -42,7 +42,7 @@ namespace Store.Services
 
         public void Update(int idSupplier, Supplier supplier)
         {
-            Supplier oSupplier = getProviderById(idSupplier);
+            Supplier oSupplier = GetProviderById(idSupplier);
             if (oSupplier != null)
             {
                 _context.Entry(oSupplier).State = EntityState.Modified;
@@ -50,11 +50,10 @@ namespace Store.Services
             }
         }
 
-        private Supplier getProviderById(int idSupplier)
+        private Supplier GetProviderById(int idSupplier)
         {
-            var _suplider = _context.Suppliers.Include(p => p.ProductSupplier).ToList()
+            return _context.Suppliers.Include(p => p.Products).ToList()
                  .FirstOrDefault(e => e.Id == idSupplier);
-           return _suplider != null ? _suplider : new Supplier();
         }
     }
 }
