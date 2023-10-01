@@ -52,8 +52,7 @@ namespace Store.Services
 
         private Supplier GetProviderById(int idSupplier)
         {
-            return _context.Suppliers.Include(p => p.Products).ToList()
-                 .FirstOrDefault(e => e.Id == idSupplier);
+            return _context.Suppliers.Find(idSupplier);
         }
     }
 }
