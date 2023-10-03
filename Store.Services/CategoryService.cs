@@ -1,4 +1,6 @@
 ﻿﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Store.Db;
 using Store.Services.Dtos;
 
@@ -8,11 +10,13 @@ namespace Store.Services
     {
         private readonly StoreDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IValidator<SaveCategoryDto> _validator;
 
-        public CategoryService(StoreDBContext dbcontext, IMapper mapper)
+        public CategoryService(StoreDBContext context, IMapper mapper, IValidator<SaveCategoryDto> validator)
         {
-            _context = dbcontext;
+            _context = context;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public IList<CategoryDto> Get()
@@ -23,13 +27,22 @@ namespace Store.Services
 
         public void Save(SaveCategoryDto dto)
         {
+            ValidationResult result = _validator.Validate(dto);
+
+            if (!result.IsValid) throw new Exception(result.ToString());
+
             var category = _mapper.Map<Category>(dto);
             _context.Categories.Add(category);
             _context.SaveChanges();
+            
         }
 
         public void Update(int id, SaveCategoryDto dto)
         {
+            ValidationResult result = _validator.Validate(dto);
+
+            if (!result.IsValid) throw new Exception(result.ToString());
+
             var CategoryNow = _context.Categories.Find(id);
 
             if (CategoryNow != null && CategoryNow.Id == dto.Id)
