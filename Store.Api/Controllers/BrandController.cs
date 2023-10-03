@@ -5,7 +5,7 @@ using Store.Services;
 namespace Store.Api.Controllers
 {
     [ApiController]
-    [Route("api/brand")]
+    [Route("api/brands")]
     public class BrandController : ControllerBase
     {
         private readonly IBrandService _brandService;
