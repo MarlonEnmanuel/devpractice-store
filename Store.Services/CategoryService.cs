@@ -27,9 +27,7 @@ namespace Store.Services
 
         public void Save(SaveCategoryDto dto)
         {
-            ValidationResult result = _validator.Validate(dto);
-
-            if (!result.IsValid) throw new Exception(result.ToString());
+            _validator.ValidateAndThrow(dto);
 
             var category = _mapper.Map<Category>(dto);
             _context.Categories.Add(category);
@@ -39,9 +37,7 @@ namespace Store.Services
 
         public void Update(int id, SaveCategoryDto dto)
         {
-            ValidationResult result = _validator.Validate(dto);
-
-            if (!result.IsValid) throw new Exception(result.ToString());
+            _validator.ValidateAndThrow(dto);
 
             var CategoryNow = _context.Categories.Find(id);
 

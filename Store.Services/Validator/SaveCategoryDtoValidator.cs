@@ -8,12 +8,12 @@ namespace Store.Services.Validator
         public SaveCategoryDtoValidator()
         {
             RuleFor(x  => x.Name).NotEmpty()
-                                .NotNull()
-                                .MaximumLength(20);
+                .NotNull()
+                .MaximumLength(20);
 
             RuleFor(x => x.Description).NotEmpty()
-                                    .NotNull()
-                                    .MaximumLength(50);
+                .NotNull()
+                .MaximumLength(50);
 
         }
 
