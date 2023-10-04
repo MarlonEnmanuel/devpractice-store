@@ -43,9 +43,8 @@ namespace Store.Services
 
             if (CategoryNow != null && CategoryNow.Id == dto.Id)
             {
-                CategoryNow.Description = dto.Description;
-                CategoryNow.Name = dto.Name;
-                
+                _mapper.Map(dto, CategoryNow);
+
                 _context.SaveChanges();
             }
         }
