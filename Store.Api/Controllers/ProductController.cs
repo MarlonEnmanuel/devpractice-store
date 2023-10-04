@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Store.Db;
 using Store.Services;
+using Store.Services.Dtos;
 
 namespace Store.Api.Controllers
 {
@@ -18,18 +18,18 @@ namespace Store.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_productService.GetList());
+            return Ok(_productService.GetProducts());
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Product product)
+        public IActionResult Post([FromBody] SaveProductDto dto)
         {
-            _productService.Save(product);
+            _productService.Save(dto);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Product product)
+        public IActionResult Put(int id, [FromBody] SaveProductDto product)
         {
             _productService.Update(id, product);
             return Ok();
@@ -41,5 +41,6 @@ namespace Store.Api.Controllers
             _productService.Delete(id);
             return Ok();
         }
+
     }
 }
