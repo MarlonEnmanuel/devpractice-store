@@ -9,6 +9,6 @@
         public int BrandId { get; set; }
         public string BrandName { get; set; }
         public int Stock { get; set; }
-        public  List<CategoryDto>? Categories { get; set; }
+        public List<CategoryDto>? Categories { get; set; }
     }
 }

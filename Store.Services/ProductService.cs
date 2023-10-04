@@ -5,7 +5,7 @@ using Store.Services.Dtos;
 
 namespace Store.Services
 {
-    public class ProductService: IProductService
+    public class ProductService : IProductService
     {
         private readonly StoreDBContext _context;
         private readonly IMapper _mapper;
@@ -15,11 +15,12 @@ namespace Store.Services
             _mapper = mapper;
         }
 
-        public IList<ProductDto> Get()
+        public IList<ProductDto> GetProducts()
         {
-            var list = _context.Products.Include(p=>p.Categories).Include(p=>p.Brand).ToList();
-            
-            return _mapper.Map<IList<ProductDto>>(list); 
+            var list = _context.Products.Include(p => p.Categories)
+                                        .Include(p => p.Brand).ToList();
+
+            return _mapper.Map<IList<ProductDto>>(list);
         }
 
         public void Save(SaveProductDto dto)
@@ -27,7 +28,7 @@ namespace Store.Services
             var product = _mapper.Map<Product>(dto);
             product.Categories = _context.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
             _context.Products.Add(product);
-            _context.SaveChanges();  
+            _context.SaveChanges();
         }
 
         public void Update(int id, SaveProductDto productDto)
@@ -39,7 +40,7 @@ namespace Store.Services
                 _mapper.Map(productDto, currentProduct);
 
                 _context.SaveChanges();
-            }     
+            }
         }
 
         public void Delete(int id)
@@ -56,9 +57,9 @@ namespace Store.Services
 
     public interface IProductService
     {
-        IList<ProductDto> Get();
-        void Save(SaveProductDto product);
-        void Update(int id, SaveProductDto product);
+        IList<ProductDto> GetProducts();
+        void Save(SaveProductDto productDto);
+        void Update(int id, SaveProductDto productDto);
         void Delete(int id);
     }
 }
