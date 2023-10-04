@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Store.Db;
 using Store.Services.Dtos;
 
@@ -18,18 +19,18 @@ namespace Store.Services
 
         public IList<ProductDto> Get()
         {
-            var list = _context.Products.ToList();
+            var list = _context.Products.Include(p=>p.Categories).ToList();
+            
             return _mapper.Map<IList<ProductDto>>(list); 
         }
 
         public void Save(SaveProductDto dto)
         {
             var product = _mapper.Map<Product>(dto);
-           
+            product.Categories = _context.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
 
-                _context.Products.Add(product);
-                _context.SaveChanges();
-            
+            _context.Products.Add(product);
+            _context.SaveChanges();  
         }
 
         public void Update(int id, SaveProductDto product)
@@ -39,12 +40,7 @@ namespace Store.Services
 
             if (ProductNow != null && ProductNow.Id == product.Id)
             {
-                ProductNow.Name = product.Name;
-                ProductNow.Description = product.Description;
-                ProductNow.Price = product.Price;
-                ProductNow.Stock = product.Stock;
-               ProductNow.expirationDate = product.expirationDate;
-
+                _mapper.Map(product, ProductNow);
 
                 _context.SaveChanges();
             }
