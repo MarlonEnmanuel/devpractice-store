@@ -19,7 +19,7 @@ namespace Store.Services
 
         public IList<ProductDto> Get()
         {
-            var list = _context.Products.Include(p=>p.Categories).ToList();
+            var list = _context.Products.Include(p=>p.Categories).Include(p=>p.Brand).ToList();
             
             return _mapper.Map<IList<ProductDto>>(list); 
         }
