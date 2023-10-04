@@ -7,14 +7,17 @@ namespace Store.Services.Validator
     {
         public SaveCategoryDtoValidator()
         {
-            RuleFor(x  => x.Name).NotEmpty()
+            RuleFor(x => x.Name)
+                .NotEmpty()
                 .NotNull()
                 .MaximumLength(20);
 
-            RuleFor(x => x.Description).NotEmpty()
+            RuleFor(x => x.Description)
+                .NotEmpty()
                 .NotNull()
                 .MaximumLength(50);
 
+            RuleFor(x => x.Id).GreaterThan(0);
         }
 
     }

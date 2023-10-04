@@ -1,6 +1,5 @@
-﻿﻿using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
 using Store.Db;
 using Store.Services.Dtos;
 
