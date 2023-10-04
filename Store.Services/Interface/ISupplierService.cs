@@ -1,16 +1,17 @@
 ﻿using Store.Db;
+using Store.Services.Dtos;
 
 namespace Store.Services.Interface
 {
     public interface ISupplierService
     {
-        IList<Supplier> Get();
+        IList<SupplierDto> Get();
 
-        Supplier GetById(int idSupplier);
+        SupplierDto GetById(int idSupplier);
 
-        void Save(Supplier supplier);
+        void Save(SaveSupplierDto supplier);
 
-        void Update(int idSupplier, Supplier supplier);
+        void Update(int idSupplier, SaveSupplierDto supplier);
 
         void Delete(int idSupplier);
     }

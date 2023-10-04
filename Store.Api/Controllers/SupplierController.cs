@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Store.Db;
+using Store.Services.Dtos;
 using Store.Services.Interface;
 
 namespace Store.Api.Controllers
@@ -16,7 +16,7 @@ namespace Store.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostProvider(Supplier supplier)
+        public IActionResult PostProvider(SaveSupplierDto supplier)
         {
             _supplierService.Save(supplier);
             return Ok();
@@ -35,7 +35,7 @@ namespace Store.Api.Controllers
         }
 
         [HttpPut("{idSupplier}")]
-        public IActionResult PutProviders(int idSupplier, Supplier supplier)
+        public IActionResult PutProviders(int idSupplier, SaveSupplierDto supplier)
         {
             _supplierService.Update(idSupplier, supplier);
             return Ok();
