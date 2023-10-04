@@ -1,12 +1,12 @@
 ﻿namespace Store.Db
 {
-    public class Category
+    public class Brand
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
-        // foreigns
+        // foreigns    
         public virtual ICollection<Product>? Products { get; set; }
     }
 }

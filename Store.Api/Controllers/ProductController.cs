@@ -5,17 +5,16 @@ using Store.Services.Dtos;
 
 namespace Store.Api.Controllers
 {
-    
-        [ApiController]
-        [Route("api/product")]
-        public class ProductController : Controller
-        {
-            private readonly IProductService _productService;
+    [ApiController]
+    [Route("api/products")]
+    public class ProductController : Controller
+    {
+        private readonly IProductService _productService;
 
-            public ProductController(IProductService productService)
-            {
-                _productService = productService;
-            }
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
 
             [HttpGet]
             public IActionResult Get()

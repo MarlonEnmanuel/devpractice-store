@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿﻿using AutoMapper;
 using Store.Db;
 using Store.Services.Dtos;
 
@@ -6,7 +6,6 @@ namespace Store.Services
 {
     public class CategoryService : ICategoryService
     {
-
         private readonly StoreDBContext _context;
         private readonly IMapper _mapper;
 
@@ -29,15 +28,15 @@ namespace Store.Services
             _context.SaveChanges();
         }
 
-        public void Update(int id, Category category)
+        public void Update(int id, SaveCategoryDto dto)
         {
             var CategoryNow = _context.Categories.Find(id);
 
-            if (CategoryNow != null && CategoryNow.Id == category.Id)
+            if (CategoryNow != null && CategoryNow.Id == dto.Id)
             {
-                CategoryNow.Name = category.Name;
-                CategoryNow.Description = category.Description;
-
+                CategoryNow.Description = dto.Description;
+                CategoryNow.Name = dto.Name;
+                
                 _context.SaveChanges();
             }
         }
@@ -53,15 +52,15 @@ namespace Store.Services
             }
         }
     }
+    
     public interface ICategoryService
     {
         IList<CategoryDto> Get();
 
-        void Save(SaveCategoryDto category);
+        void Save(SaveCategoryDto dto);
 
-        void Update(int id, Category category);
+        void Update(int id, SaveCategoryDto dto);
 
         void Delete(int id);
-
     }
 }

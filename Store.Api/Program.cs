@@ -1,6 +1,8 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Store.Db;
 using Store.Services;
+using Store.Services.Interface;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -22,10 +24,13 @@ builder.Services.AddDbContext<StoreDBContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(Assembly.Load("Store.Services"));
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("Store.Services"));
 
 // Add Services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 
 var app = builder.Build();
 
