@@ -5,14 +5,14 @@ namespace Store.Services.Interface
 {
     public interface ISupplierService
     {
-        IList<SupplierDto> Get();
+        IList<SupplierDto> GetSupplierFindAll();
 
-        SupplierDto GetById(int idSupplier);
+        SupplierDto GetSupplierById(int idSupplier);
 
-        void Save(SaveSupplierDto supplier);
+        void SaveSupplier(SaveSupplierDto supplier);
 
-        void Update(int idSupplier, SaveSupplierDto supplier);
+        void UpdateSupplier(int idSupplier, SaveSupplierDto supplier);
 
-        void Delete(int idSupplier);
+        void DeleteSupplier(int idSupplier);
     }
 }
