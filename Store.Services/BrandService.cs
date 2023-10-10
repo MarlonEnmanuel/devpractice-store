@@ -1,35 +1,41 @@
-﻿using Store.Db;
+﻿using AutoMapper;
+using Store.Db;
+using Store.Services.Dtos;
 
 namespace Store.Services
 {
     public class BrandService : IBrandService
     {
         private readonly StoreDBContext _context;
+        private readonly IMapper _mapper;
 
-        public BrandService(StoreDBContext dbcontext)
+        public BrandService(StoreDBContext context, IMapper mapper)
         {
-            _context = dbcontext;
+            _context = context;
+            _mapper = mapper;
         }
 
-        public IList<Brand> Get()
+        public IList<BrandDto> Get()
         {
-            return _context.Brands.ToList();
+            var list = _context.Brands.ToList();
+            return _mapper.Map<IList<BrandDto>>(list);
         }
-
-        public void Save(Brand brand)
+        
+        public void Save(SaveBrandDto dto)
         {
-            _context.Add(brand);
+            var brand = _mapper.Map<Brand>(dto);
+            _context.Brands.Add(brand);
             _context.SaveChanges();
         }
 
-        public void Update(int id, Brand brand)
+        public void Update(int id, SaveBrandDto dto)
         {
             var BrandNow = _context.Brands.Find(id);
 
-            if (BrandNow != null && BrandNow.Id == brand.Id)
+            if (BrandNow != null && BrandNow.Id == dto.Id)
             {
-                BrandNow.Name = brand.Name;
-                BrandNow.Description = brand.Description;
+                BrandNow.Name = dto.Name;
+                BrandNow.Description = dto.Description;
 
                 _context.SaveChanges();
             }
@@ -49,11 +55,11 @@ namespace Store.Services
     
     public interface IBrandService
     {
-        IList<Brand> Get();
+        IList<BrandDto> Get();
 
-        void Save(Brand brand);
+        void Save(SaveBrandDto dto);
 
-        void Update(int id, Brand brand);
+        void Update(int id, SaveBrandDto dto);
 
         void Delete(int id);
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.Db;
 using Store.Services;
+using Store.Services.Dtos;
 
 namespace Store.Api.Controllers
 {
@@ -22,16 +23,16 @@ namespace Store.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Brand brand)
+        public IActionResult Post([FromBody] SaveBrandDto dto)
         {
-            _brandService.Save(brand);
+            _brandService.Save(dto);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Brand brand)
+        public IActionResult Put(int id, [FromBody] SaveBrandDto dto)
         {
-            _brandService.Update(id, brand);
+            _brandService.Update(id, dto);
             return Ok();
         }
 
