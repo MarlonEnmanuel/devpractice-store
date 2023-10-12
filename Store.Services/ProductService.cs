@@ -29,6 +29,8 @@ namespace Store.Services
 
         public void Save(SaveProductDto dto)
         {
+            _validator.ValidateAndThrow(dto);
+
             var product = _mapper.Map<Product>(dto);
             product.Categories = _context.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
             _context.Products.Add(product);

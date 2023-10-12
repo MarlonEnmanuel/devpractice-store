@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.Services;
 using Store.Services.Dtos;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace Store.Api.Controllers
 {
