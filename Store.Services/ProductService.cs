@@ -39,6 +39,8 @@ namespace Store.Services
 
         public void Update(int id, SaveProductDto productDto)
         {
+            _validator.ValidateAndThrow(productDto);
+
             var currentProduct = _context.Products.Find(id);
 
             if (currentProduct != null && currentProduct.Id == productDto.Id)
