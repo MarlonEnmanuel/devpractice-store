@@ -12,6 +12,7 @@ namespace Store.Services
         private readonly StoreDBContext _context;
         private readonly IMapper _mapper;
         private readonly IValidator<SaveProductDto> _validator;
+
         public ProductService(StoreDBContext context, IMapper mapper, IValidator<SaveProductDto> validator )
         {
             _context = context;

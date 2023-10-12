@@ -7,7 +7,6 @@ namespace Store.Services.Validator
     {
         public SaveProductDtoValidator()
         {
-
             RuleFor(x => x.Name).NotEmpty()
                                 .NotNull()
                                 .MaximumLength(50);
