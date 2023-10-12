@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Store.Db;
 using Store.Services.Dtos;
 using FluentValidation;
-using FluentValidation.Results;
 
 namespace Store.Services
 {
