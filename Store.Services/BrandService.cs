@@ -17,7 +17,7 @@ namespace Store.Services
 
         public IList<BrandDto> GetBrandList()
         {
-            var list = _context.Brands.ToList();
+            var list = _context.Basdasdrands.ToList();
             return _mapper.Map<IList<BrandDto>>(list);
         }
 
