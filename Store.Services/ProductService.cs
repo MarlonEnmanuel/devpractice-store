@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Store.Db;
 using Store.Services.Dtos;
+using FluentValidation;
 
 namespace Store.Services
 {
@@ -9,10 +10,13 @@ namespace Store.Services
     {
         private readonly StoreDBContext _context;
         private readonly IMapper _mapper;
-        public ProductService(StoreDBContext context, IMapper mapper)
+        private readonly IValidator<SaveProductDto> _validator;
+
+        public ProductService(StoreDBContext context, IMapper mapper, IValidator<SaveProductDto> validator )
         {
             _context = context;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public IList<ProductDto> GetProducts()
@@ -25,6 +29,8 @@ namespace Store.Services
 
         public void Save(SaveProductDto dto)
         {
+            _validator.ValidateAndThrow(dto);
+
             var product = _mapper.Map<Product>(dto);
             product.Categories = _context.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
             _context.Products.Add(product);
@@ -33,6 +39,8 @@ namespace Store.Services
 
         public void Update(int id, SaveProductDto productDto)
         {
+            _validator.ValidateAndThrow(productDto);
+
             var currentProduct = _context.Products.Find(id);
 
             if (currentProduct != null && currentProduct.Id == productDto.Id)
