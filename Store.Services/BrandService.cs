@@ -15,53 +15,59 @@ namespace Store.Services
             _mapper = mapper;
         }
 
-        public IList<BrandDto> Get()
+        public IList<BrandDto> GetBrandList()
         {
             var list = _context.Brands.ToList();
             return _mapper.Map<IList<BrandDto>>(list);
         }
-        
-        public void Save(SaveBrandDto dto)
+
+        public void SaveBrand(SaveBrandDto dto)
         {
             var brand = _mapper.Map<Brand>(dto);
+            
             _context.Brands.Add(brand);
             _context.SaveChanges();
         }
 
-        public void Update(int id, SaveBrandDto dto)
+        public void UpdateBrand(int id, SaveBrandDto dto)
         {
-            var BrandNow = _context.Brands.Find(id);
-
-            if (BrandNow != null && BrandNow.Id == dto.Id)
+            if (dto == null || id != dto.Id)
             {
-                BrandNow.Name = dto.Name;
-                BrandNow.Description = dto.Description;
-
-                _context.SaveChanges();
+                return;
             }
+
+            var currentBrand = _context.Brands.Find(id);
+            if (currentBrand == null)
+            {
+                return;
+            }
+
+            _mapper.Map(dto, currentBrand);
+            _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void DeleteBrand(int id)
         {
-            var BrandNow = _context.Brands.Find(id);
-
-            if (BrandNow != null)
+            var currentBrand = _context.Brands.Find(id);
+            if (currentBrand == null)
             {
-                _context.Remove(BrandNow);
-                _context.SaveChanges();
+                return;
             }
+
+            _context.Remove(currentBrand);
+            _context.SaveChanges();
         }
     }
-    
+
     public interface IBrandService
     {
-        IList<BrandDto> Get();
+        IList<BrandDto> GetBrandList();
 
-        void Save(SaveBrandDto dto);
+        void SaveBrand(SaveBrandDto dto);
 
-        void Update(int id, SaveBrandDto dto);
+        void UpdateBrand(int id, SaveBrandDto dto);
 
-        void Delete(int id);
+        void DeleteBrand(int id);
     }
 }
 
