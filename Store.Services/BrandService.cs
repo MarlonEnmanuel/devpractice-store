@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Store.Db;
 using Store.Services.Dtos;
 
@@ -8,11 +9,13 @@ namespace Store.Services
     {
         private readonly StoreDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IValidator<SaveBrandDto> _validator;
 
-        public BrandService(StoreDBContext context, IMapper mapper)
+        public BrandService(StoreDBContext context, IMapper mapper, IValidator<SaveBrandDto> validator)
         {
             _context = context;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public IList<BrandDto> GetBrandList()
@@ -23,6 +26,8 @@ namespace Store.Services
 
         public void SaveBrand(SaveBrandDto dto)
         {
+            _validator.ValidateAndThrow(dto);
+            
             var brand = _mapper.Map<Brand>(dto);
             
             _context.Brands.Add(brand);
@@ -35,6 +40,8 @@ namespace Store.Services
             {
                 return;
             }
+
+            _validator.ValidateAndThrow(dto);
 
             var currentBrand = _context.Brands.Find(id);
             if (currentBrand == null)
