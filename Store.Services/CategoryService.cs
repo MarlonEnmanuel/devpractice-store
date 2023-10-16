@@ -1,4 +1,5 @@
-﻿﻿using AutoMapper;
+﻿using AutoMapper;
+using FluentValidation;
 using Store.Db;
 using Store.Services.Dtos;
 
@@ -8,11 +9,13 @@ namespace Store.Services
     {
         private readonly StoreDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IValidator<SaveCategoryDto> _validator;
 
-        public CategoryService(StoreDBContext dbcontext, IMapper mapper)
+        public CategoryService(StoreDBContext context, IMapper mapper, IValidator<SaveCategoryDto> validator)
         {
-            _context = dbcontext;
+            _context = context;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public IList<CategoryDto> Get()
@@ -23,31 +26,35 @@ namespace Store.Services
 
         public void Save(SaveCategoryDto dto)
         {
+            _validator.ValidateAndThrow(dto);
+
             var category = _mapper.Map<Category>(dto);
             _context.Categories.Add(category);
             _context.SaveChanges();
+            
         }
 
         public void Update(int id, SaveCategoryDto dto)
         {
-            var CategoryNow = _context.Categories.Find(id);
+            _validator.ValidateAndThrow(dto);
 
-            if (CategoryNow != null && CategoryNow.Id == dto.Id)
+            var currentCategory = _context.Categories.Find(id);
+
+            if (currentCategory != null && currentCategory.Id == dto.Id)
             {
-                CategoryNow.Description = dto.Description;
-                CategoryNow.Name = dto.Name;
-                
+                _mapper.Map(dto, currentCategory);
+
                 _context.SaveChanges();
             }
         }
 
         public void Delete(int id)
         {
-            var CategoryNow = _context.Categories.Find(id);
+            var currentCategory = _context.Categories.Find(id);
 
-            if (CategoryNow != null)
+            if (currentCategory != null)
             {
-                _context.Remove(CategoryNow);
+                _context.Remove(currentCategory);
                 _context.SaveChanges();
             }
         }
