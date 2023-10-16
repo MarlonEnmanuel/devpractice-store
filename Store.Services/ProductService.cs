@@ -1,52 +1,63 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Store.Db;
+using Store.Services.Dtos;
+using FluentValidation;
 
 namespace Store.Services
 {
-    public class ProductService: IProductService
+    public class ProductService : IProductService
     {
         private readonly StoreDBContext _context;
+        private readonly IMapper _mapper;
+        private readonly IValidator<SaveProductDto> _validator;
 
-        public ProductService(StoreDBContext context)
+        public ProductService(StoreDBContext context, IMapper mapper, IValidator<SaveProductDto> validator )
         {
             _context = context;
+            _mapper = mapper;
+            _validator = validator;
         }
 
-        public IList<Product> GetList()
+        public IList<ProductDto> GetProducts()
         {
-            return _context.Products.Include(p => p.Categories)
-                                    .ToList();
+            var list = _context.Products.Include(p => p.Categories)
+                                        .Include(p => p.Brand).ToList();
+
+            return _mapper.Map<IList<ProductDto>>(list);
         }
 
-        public void Save(Product product)
+        public void Save(SaveProductDto dto)
         {
-            var products = _context.Products.Find(product.Id);
-            if (products == null)
+            _validator.ValidateAndThrow(dto);
+
+            var product = _mapper.Map<Product>(dto);
+            product.Categories = _context.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
+            _context.Products.Add(product);
+            _context.SaveChanges();
+        }
+
+        public void Update(int id, SaveProductDto productDto)
+        {
+            _validator.ValidateAndThrow(productDto);
+
+            var currentProduct = _context.Products.Find(id);
+
+            if (currentProduct != null && currentProduct.Id == productDto.Id)
             {
-                var categoryIds = product.Categories?.Select(c => c.Id).ToArray();
-                var categoryList = _context.Categories.Where(c=> categoryIds.Contains(c.Id)).ToList();
-                product.Categories = categoryList;
+                _mapper.Map(productDto, currentProduct);
 
-                _context.Add(product);
                 _context.SaveChanges();
             }
         }
 
-        public void Update(int id, Product product)
-        {
-            _context.Entry(product).State = EntityState.Modified;
-
-            _context.SaveChanges();
-
-        }
-
         public void Delete(int id)
         {
-            var product = _context.Products.Find(id);
-            if (product != null)
-            {
-                _context.Remove(product);
+            var currentProduct = _context.Products.Find(id);
 
+            if (currentProduct != null)
+            {
+                _context.Remove(currentProduct);
                 _context.SaveChanges();
             }
         }
@@ -54,12 +65,9 @@ namespace Store.Services
 
     public interface IProductService
     {
-        IList<Product> GetList();
-
-        void Save(Product product);
-
-        void Update(int id, Product product);
-
+        IList<ProductDto> GetProducts();
+        void Save(SaveProductDto productDto);
+        void Update(int id, SaveProductDto productDto);
         void Delete(int id);
     }
 }

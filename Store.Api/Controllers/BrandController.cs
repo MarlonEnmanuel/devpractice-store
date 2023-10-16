@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Store.Db;
 using Store.Services;
+using Store.Services.Dtos;
 
 namespace Store.Api.Controllers
 {
@@ -18,27 +18,27 @@ namespace Store.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_brandService.Get());
+            return Ok(_brandService.GetBrandList());
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Brand brand)
+        public IActionResult Post([FromBody] SaveBrandDto dto)
         {
-            _brandService.Save(brand);
+            _brandService.SaveBrand(dto);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Brand brand)
+        public IActionResult Put(int id, [FromBody] SaveBrandDto dto)
         {
-            _brandService.Update(id, brand);
+            _brandService.UpdateBrand(id, dto);
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _brandService.Delete(id);
+            _brandService.DeleteBrand(id);
             return Ok();
         }
     }

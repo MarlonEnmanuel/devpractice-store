@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using Store.Db;
+using Store.Services.Dtos;
 using Store.Services.Interface;
 
 namespace Store.Services
@@ -7,52 +8,53 @@ namespace Store.Services
     public class SupplierService : ISupplierService
     {
         private readonly StoreDBContext _context;
+        private readonly IMapper _mapper;
 
 
-        public SupplierService(StoreDBContext context)
+        public SupplierService(StoreDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public void Delete(int idSupplier)
+        public void DeleteSupplier(int idSupplier)
         {
-            Supplier oSupplier = GetProviderById(idSupplier);
-            if (oSupplier != null)
+            var currentSupplier = _context.Suppliers.Find(idSupplier);
+            if (currentSupplier != null)
             {
-                _context.Suppliers.Remove(oSupplier);
+                _context.Suppliers.Remove(currentSupplier);
                 _context.SaveChanges();
             }
         }
 
-        public IList<Supplier> Get()
+        public IList<SupplierDto> GetSupplierFindAll()
         {
-            return _context.Suppliers.Include(p => p.Products).ToList();
+            var supplierList = _context.Suppliers.ToList();
+            return _mapper.Map<IList<SupplierDto>>(supplierList);
         }
 
-        public Supplier GetById(int idSupplier)
+        public SupplierDto GetSupplierById(int idSupplier)
         {
-            return GetProviderById(idSupplier);
+            var currentSupplier = _context.Suppliers.Find(idSupplier);
+            return _mapper.Map<SupplierDto>(currentSupplier);
         }
 
-        public void Save(Supplier supplier)
+        public void SaveSupplier(SaveSupplierDto dto)
         {
-            _context.Suppliers.Add(supplier);
+            var supplierNow = _mapper.Map<Supplier>(dto);
+            _context.Suppliers.Add(supplierNow);
             _context.SaveChanges();
         }
 
-        public void Update(int idSupplier, Supplier supplier)
+        public void UpdateSupplier(int idSupplier, SaveSupplierDto dto)
         {
-            Supplier oSupplier = GetProviderById(idSupplier);
-            if (oSupplier != null)
+            var currentSupplier = _context.Suppliers.Find(idSupplier);
+            if (currentSupplier != null && currentSupplier.Id == dto.Id)
             {
-                _context.Entry(oSupplier).State = EntityState.Modified;
+                currentSupplier.RucSupplier = dto.RucSupplier;
+                currentSupplier.BusinessName = dto.BusinessName;
                 _context.SaveChanges();
             }
-        }
-
-        private Supplier GetProviderById(int idSupplier)
-        {
-            return _context.Suppliers.Find(idSupplier);
         }
     }
 }
