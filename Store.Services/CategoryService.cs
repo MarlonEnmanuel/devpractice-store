@@ -38,11 +38,11 @@ namespace Store.Services
         {
             _validator.ValidateAndThrow(dto);
 
-            var CategoryNow = _context.Categories.Find(id);
+            var currentCategory = _context.Categories.Find(id);
 
-            if (CategoryNow != null && CategoryNow.Id == dto.Id)
+            if (currentCategory != null && currentCategory.Id == dto.Id)
             {
-                _mapper.Map(dto, CategoryNow);
+                _mapper.Map(dto, currentCategory);
 
                 _context.SaveChanges();
             }
@@ -50,11 +50,11 @@ namespace Store.Services
 
         public void Delete(int id)
         {
-            var CategoryNow = _context.Categories.Find(id);
+            var currentCategory = _context.Categories.Find(id);
 
-            if (CategoryNow != null)
+            if (currentCategory != null)
             {
-                _context.Remove(CategoryNow);
+                _context.Remove(currentCategory);
                 _context.SaveChanges();
             }
         }
