@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Store.BD\Store.Db.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interface\" />
+    <Folder Include="Modules\Suppliers\Validators\" />
+  </ItemGroup>
+
 </Project>

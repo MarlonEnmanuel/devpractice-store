@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Store.Core.Dtos;
-using Store.Core.Interface;
+using Store.Core.Modules.Suppliers.Dtos;
+using Store.Core.Modules.Suppliers.Interfaces;
 
 namespace Store.Api.Controllers
 {

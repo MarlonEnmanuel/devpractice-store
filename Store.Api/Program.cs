@@ -1,7 +1,13 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Store.Core;
-using Store.Core.Interface;
+using Store.Core.Modules.Brands;
+using Store.Core.Modules.Brands.Interfaces;
+using Store.Core.Modules.Categories;
+using Store.Core.Modules.Categories.Interfaces;
+using Store.Core.Modules.Products;
+using Store.Core.Modules.Products.Interfaces;
+using Store.Core.Modules.Suppliers;
+using Store.Core.Modules.Suppliers.Interfaces;
 using Store.Db;
 using System.Reflection;
 

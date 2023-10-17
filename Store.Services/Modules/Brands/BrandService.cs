@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Store.Core.Dtos;
+using Store.Core.Modules.Brands.Dtos;
+using Store.Core.Modules.Brands.Interfaces;
 using Store.Db;
 using Store.Db.Entities;
 
-namespace Store.Core
+namespace Store.Core.Modules.Brands
 {
     public class BrandService : IBrandService
     {
@@ -65,17 +66,6 @@ namespace Store.Core
             _context.Remove(currentBrand);
             _context.SaveChanges();
         }
-    }
-
-    public interface IBrandService
-    {
-        IList<BrandDto> GetBrandList();
-
-        void SaveBrand(SaveBrandDto dto);
-
-        void UpdateBrand(int id, SaveBrandDto dto);
-
-        void DeleteBrand(int id);
     }
 }
 

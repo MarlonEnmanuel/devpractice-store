@@ -1,4 +1,4 @@
-﻿namespace Store.Core.Dtos
+﻿namespace Store.Core.Modules.Suppliers.Dtos
 {
     public class SaveSupplierDto
     {

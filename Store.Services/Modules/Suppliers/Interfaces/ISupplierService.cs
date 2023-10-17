@@ -1,6 +1,6 @@
-﻿using Store.Core.Dtos;
+﻿using Store.Core.Modules.Suppliers.Dtos;
 
-namespace Store.Core.Interface
+namespace Store.Core.Modules.Suppliers.Interfaces
 {
     public interface ISupplierService
     {

@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
-using Store.Core.Dtos;
-using Store.Core.Interface;
+using Store.Core.Modules.Suppliers.Dtos;
+using Store.Core.Modules.Suppliers.Interfaces;
 using Store.Db;
 using Store.Db.Entities;
 
-namespace Store.Core
+namespace Store.Core.Modules.Suppliers
 {
     public class SupplierService : ISupplierService
     {
         private readonly StoreDbContext _context;
         private readonly IMapper _mapper;
-
 
         public SupplierService(StoreDbContext context, IMapper mapper)
         {

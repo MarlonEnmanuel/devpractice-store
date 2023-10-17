@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Store.Core.Dtos;
+using Store.Core.Modules.Products.Dtos;
 
-namespace Store.Core.Validator
+namespace Store.Core.Modules.Products.Validators
 {
     public class SaveProductDtoValidator : AbstractValidator<SaveProductDto>
     {

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Store.Core.Dtos;
+using Store.Core.Modules.Categories.Dtos;
+using Store.Core.Modules.Categories.Interfaces;
 using Store.Db;
 using Store.Db.Entities;
 
-namespace Store.Core
+namespace Store.Core.Modules.Categories
 {
     public class CategoryService : ICategoryService
     {
@@ -59,16 +60,5 @@ namespace Store.Core
                 _context.SaveChanges();
             }
         }
-    }
-
-    public interface ICategoryService
-    {
-        IList<CategoryDto> Get();
-
-        void Save(SaveCategoryDto dto);
-
-        void Update(int id, SaveCategoryDto dto);
-
-        void Delete(int id);
     }
 }

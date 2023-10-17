@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Store.Core.Dtos;
+using Store.Core.Modules.Categories.Dtos;
 using Store.Db.Entities;
 
-namespace Store.Core.Mappers
+namespace Store.Core.Modules.Categories
 {
     internal class CategoryMapper : Profile
     {

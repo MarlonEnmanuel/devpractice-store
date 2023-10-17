@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Store.Core.Dtos;
+using Store.Core.Modules.Categories.Dtos;
 
-namespace Store.Core.Validator
+namespace Store.Core.Modules.Categories.Validators
 {
     public class SaveCategoryDtoValidator : AbstractValidator<SaveCategoryDto>
     {

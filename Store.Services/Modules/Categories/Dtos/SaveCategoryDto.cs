@@ -1,6 +1,6 @@
-﻿namespace Store.Core.Dtos
+﻿namespace Store.Core.Modules.Categories.Dtos
 {
-    public class SaveBrandDto
+    public class SaveCategoryDto
     {
         public int? Id { get; set; }
         public string Name { get; set; }

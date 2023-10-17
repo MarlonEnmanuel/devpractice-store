@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Store.Core.Dtos;
+using Store.Core.Modules.Products.Dtos;
+using Store.Core.Modules.Products.Interfaces;
 using Store.Db;
 using Store.Db.Entities;
 
-namespace Store.Core
+namespace Store.Core.Modules.Products
 {
     public class ProductService : IProductService
     {
@@ -62,13 +63,5 @@ namespace Store.Core
                 _context.SaveChanges();
             }
         }
-    }
-
-    public interface IProductService
-    {
-        IList<ProductDto> GetProducts();
-        void Save(SaveProductDto productDto);
-        void Update(int id, SaveProductDto productDto);
-        void Delete(int id);
     }
 }
