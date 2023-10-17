@@ -4,16 +4,12 @@ using Store.Core;
 using Store.Core.Interface;
 using Store.Db;
 using System.Reflection;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-});
+builder.Services.AddControllers();
 builder.Services.AddDbContext<StoreDbContext>(options =>
 {
     var connectionStr = builder.Configuration.GetConnectionString("Store") ??
@@ -23,6 +19,7 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAutoMapper(Assembly.Load("Store.Core"));
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("Store.Core"));
 
