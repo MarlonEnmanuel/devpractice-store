@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Store.Db;
-using Store.Services.Dtos;
+using Store.Core.Dtos;
 
-namespace Store.Services
+namespace Store.Core
 {
     public class CategoryService : ICategoryService
     {

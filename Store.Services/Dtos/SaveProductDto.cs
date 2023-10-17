@@ -1,5 +1,5 @@
 ﻿
-namespace Store.Services.Dtos
+namespace Store.Core.Dtos
 {
     public class SaveProductDto
     {

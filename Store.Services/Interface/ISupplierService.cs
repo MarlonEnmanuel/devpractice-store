@@ -1,7 +1,7 @@
 ﻿using Store.Db;
-using Store.Services.Dtos;
+using Store.Core.Dtos;
 
-namespace Store.Services.Interface
+namespace Store.Core.Interface
 {
     public interface ISupplierService
     {

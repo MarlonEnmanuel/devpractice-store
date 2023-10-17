@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Store.Db;
-using Store.Services.Dtos;
-using Store.Services.Interface;
+using Store.Core.Dtos;
+using Store.Core.Interface;
 
-namespace Store.Services
+namespace Store.Core
 {
     public class SupplierService : ISupplierService
     {

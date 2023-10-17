@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Store.Db;
-using Store.Services.Dtos;
-namespace Store.Services.Mappers
+using Store.Core.Dtos;
+namespace Store.Core.Mappers
 {
     internal class SupplierMapper :Profile
     {

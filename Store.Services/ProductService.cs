@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Store.Db;
-using Store.Services.Dtos;
+using Store.Core.Dtos;
 using FluentValidation;
 
-namespace Store.Services
+namespace Store.Core
 {
     public class ProductService : IProductService
     {

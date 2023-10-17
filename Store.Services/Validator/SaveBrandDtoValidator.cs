@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Store.Services.Dtos;
+using Store.Core.Dtos;
 
-namespace Store.Services.Validator
+namespace Store.Core.Validator
 {
     public class SaveBrandDtoValidator : AbstractValidator<SaveBrandDto>
     {

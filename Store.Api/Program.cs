@@ -1,8 +1,8 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Store.Db;
-using Store.Services;
-using Store.Services.Interface;
+using Store.Core;
+using Store.Core.Interface;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -23,8 +23,8 @@ builder.Services.AddDbContext<StoreDBContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(Assembly.Load("Store.Services"));
-builder.Services.AddValidatorsFromAssembly(Assembly.Load("Store.Services"));
+builder.Services.AddAutoMapper(Assembly.Load("Store.Core"));
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("Store.Core"));
 
 // Add Services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
