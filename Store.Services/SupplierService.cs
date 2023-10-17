@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Store.Db;
 using Store.Core.Dtos;
 using Store.Core.Interface;
+using Store.Db;
 using Store.Db.Entities;
 
 namespace Store.Core

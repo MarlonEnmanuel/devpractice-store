@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Store.Db;
-using Store.Core.Dtos;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Store.Core.Dtos;
+using Store.Db;
 using Store.Db.Entities;
 
 namespace Store.Core
@@ -13,7 +13,7 @@ namespace Store.Core
         private readonly IMapper _mapper;
         private readonly IValidator<SaveProductDto> _validator;
 
-        public ProductService(StoreDbContext context, IMapper mapper, IValidator<SaveProductDto> validator )
+        public ProductService(StoreDbContext context, IMapper mapper, IValidator<SaveProductDto> validator)
         {
             _context = context;
             _mapper = mapper;

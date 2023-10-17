@@ -4,9 +4,10 @@ using Store.Db.Entities;
 
 namespace Store.Core.Mappers
 {
-    internal class SupplierMapper :Profile
+    internal class SupplierMapper : Profile
     {
-        public SupplierMapper() {
+        public SupplierMapper()
+        {
             CreateMap<Supplier, SupplierDto>();
             CreateMap<SaveSupplierDto, Supplier>();
         }

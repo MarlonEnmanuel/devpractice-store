@@ -1,5 +1,4 @@
-﻿using Store.Db;
-using Store.Core.Dtos;
+﻿using Store.Core.Dtos;
 
 namespace Store.Core.Interface
 {

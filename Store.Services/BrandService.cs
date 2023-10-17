@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Store.Db;
 using Store.Core.Dtos;
+using Store.Db;
 using Store.Db.Entities;
 
 namespace Store.Core
@@ -28,9 +28,9 @@ namespace Store.Core
         public void SaveBrand(SaveBrandDto dto)
         {
             _validator.ValidateAndThrow(dto);
-            
+
             var brand = _mapper.Map<Brand>(dto);
-            
+
             _context.Brands.Add(brand);
             _context.SaveChanges();
         }

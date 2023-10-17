@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Store.Db;
 using Store.Core.Dtos;
+using Store.Db;
 using Store.Db.Entities;
 
 namespace Store.Core
@@ -32,7 +32,7 @@ namespace Store.Core
             var category = _mapper.Map<Category>(dto);
             _context.Categories.Add(category);
             _context.SaveChanges();
-            
+
         }
 
         public void Update(int id, SaveCategoryDto dto)
@@ -60,7 +60,7 @@ namespace Store.Core
             }
         }
     }
-    
+
     public interface ICategoryService
     {
         IList<CategoryDto> Get();

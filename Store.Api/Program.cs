@@ -1,8 +1,8 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Store.Db;
 using Store.Core;
 using Store.Core.Interface;
+using Store.Db;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
