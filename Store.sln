@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Api", "Store.Api\Stor
 		{F9A77241-C63F-4E0C-8FCE-2CD2ADC59CD5} = {F9A77241-C63F-4E0C-8FCE-2CD2ADC59CD5}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Db", "Store.BD\Store.Db.csproj", "{73268616-FC9C-43DA-A654-1E6031F9091E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Db", "Store.Db\Store.Db.csproj", "{73268616-FC9C-43DA-A654-1E6031F9091E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Core", "Store.Services\Store.Core.csproj", "{F9A77241-C63F-4E0C-8FCE-2CD2ADC59CD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Core", "Store.Core\Store.Core.csproj", "{F9A77241-C63F-4E0C-8FCE-2CD2ADC59CD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

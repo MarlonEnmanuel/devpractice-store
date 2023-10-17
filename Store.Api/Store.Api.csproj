@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Store.BD\Store.Db.csproj" />
-    <ProjectReference Include="..\Store.Services\Store.Core.csproj" />
+    <ProjectReference Include="..\Store.Db\Store.Db.csproj" />
+    <ProjectReference Include="..\Store.Core\Store.Core.csproj" />
   </ItemGroup>
 
 </Project>

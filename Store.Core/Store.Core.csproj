@@ -14,12 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Store.BD\Store.Db.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interface\" />
-    <Folder Include="Modules\Suppliers\Validators\" />
+    <ProjectReference Include="..\Store.Db\Store.Db.csproj" />
   </ItemGroup>
 
 </Project>
