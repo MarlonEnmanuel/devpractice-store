@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Store.Db.Entities;
 
 namespace Store.Db
 {
-    public class StoreDBContext : DbContext
+    public class StoreDbContext : DbContext
     {
-        public StoreDBContext(DbContextOptions options) : base(options) { }
+        public StoreDbContext(DbContextOptions options) : base(options) { }
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
@@ -24,11 +26,12 @@ namespace Store.Db
                 Supplier.Property(p => p.BusinessName).IsRequired().HasMaxLength(100);
 
             });
+
             modelBuilder.Entity<Brand>(Brand =>
             {
                 Brand.Property(p => p.Name).IsRequired().HasMaxLength(30);
                 Brand.Property(p => p.Description).IsRequired(false).HasMaxLength(100);
             });
-            }
         }
+    }
 }

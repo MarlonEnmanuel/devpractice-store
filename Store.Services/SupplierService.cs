@@ -2,16 +2,17 @@
 using Store.Db;
 using Store.Core.Dtos;
 using Store.Core.Interface;
+using Store.Db.Entities;
 
 namespace Store.Core
 {
     public class SupplierService : ISupplierService
     {
-        private readonly StoreDBContext _context;
+        private readonly StoreDbContext _context;
         private readonly IMapper _mapper;
 
 
-        public SupplierService(StoreDBContext context, IMapper mapper)
+        public SupplierService(StoreDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

@@ -1,4 +1,4 @@
-﻿namespace Store.Db
+﻿namespace Store.Db.Entities
 {
     public class Brand
     {

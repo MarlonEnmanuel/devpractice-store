@@ -14,7 +14,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
-builder.Services.AddDbContext<StoreDBContext>(options =>
+builder.Services.AddDbContext<StoreDbContext>(options =>
 {
     var connectionStr = builder.Configuration.GetConnectionString("Store") ??
         throw new Exception("Connection string 'Store' not found");
@@ -36,7 +36,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetService<StoreDBContext>();
+    var context = scope.ServiceProvider.GetService<StoreDbContext>();
     context.Database.EnsureCreated();
 }
 

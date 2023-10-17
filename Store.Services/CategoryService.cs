@@ -2,16 +2,17 @@
 using FluentValidation;
 using Store.Db;
 using Store.Core.Dtos;
+using Store.Db.Entities;
 
 namespace Store.Core
 {
     public class CategoryService : ICategoryService
     {
-        private readonly StoreDBContext _context;
+        private readonly StoreDbContext _context;
         private readonly IMapper _mapper;
         private readonly IValidator<SaveCategoryDto> _validator;
 
-        public CategoryService(StoreDBContext context, IMapper mapper, IValidator<SaveCategoryDto> validator)
+        public CategoryService(StoreDbContext context, IMapper mapper, IValidator<SaveCategoryDto> validator)
         {
             _context = context;
             _mapper = mapper;

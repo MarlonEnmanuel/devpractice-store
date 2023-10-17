@@ -2,16 +2,17 @@
 using FluentValidation;
 using Store.Db;
 using Store.Core.Dtos;
+using Store.Db.Entities;
 
 namespace Store.Core
 {
     public class BrandService : IBrandService
     {
-        private readonly StoreDBContext _context;
+        private readonly StoreDbContext _context;
         private readonly IMapper _mapper;
         private readonly IValidator<SaveBrandDto> _validator;
 
-        public BrandService(StoreDBContext context, IMapper mapper, IValidator<SaveBrandDto> validator)
+        public BrandService(StoreDbContext context, IMapper mapper, IValidator<SaveBrandDto> validator)
         {
             _context = context;
             _mapper = mapper;
