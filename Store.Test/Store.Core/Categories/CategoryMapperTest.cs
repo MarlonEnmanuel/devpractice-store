@@ -27,9 +27,40 @@ namespace Store.Test.Store.Core.Categories
 
             var dto = _mapper.Map<CategoryDto>(entity);
 
-            Assert.Equal(1, dto.Id);
-            Assert.Equal("TestCategory", dto.Name);
-            Assert.Equal("TestCategoryDescription", dto.Description);
+            Assert.Equal(entity.Id, dto.Id);
+            Assert.Equal(entity.Name, dto.Name);
+            Assert.Equal(entity.Description, dto.Description);
+        }
+
+        [Fact]
+        public void Map_SaveCategoryDto_for_Create()
+        {
+            var entity = new SaveCategoryDto
+            {
+                Name = "TestCategory",
+                Description = "TestCategoryDescription",
+            };
+
+            var dto = _mapper.Map<Category>(entity);
+
+            Assert.Equal(entity.Name, dto.Name);
+            Assert.Equal(entity.Description, dto.Description);
+        }
+
+        [Fact]
+        public void Map_SaveCategoryDto_for_Update()
+        {
+            var entity = new SaveCategoryDto
+            {
+                Id = 1,
+                Name = "TestCategory",
+                Description = "TestCategoryDescription",
+            };
+
+            var dto = _mapper.Map<Category>(entity);
+
+            Assert.Equal(entity.Name, dto.Name);
+            Assert.Equal(entity.Description, dto.Description);
         }
     }
 }
