@@ -35,6 +35,8 @@ namespace Store.Db
             });
 
             new CategorySeeder().Seed(modelBuilder);
+            new SupplierSeeder().Seed(modelBuilder);
+            new BrandSeeder().Seed(modelBuilder);
         }
     }
 }
