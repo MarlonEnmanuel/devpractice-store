@@ -34,7 +34,7 @@ namespace Store.Test.Store.Core.Suppliers
         }
 
         [Fact]
-        public void Map_Supplier_to_SaveSupplierDto()
+        public void Map_SaveSupplierDto_to_Supplier()
         {
             var dto = new SaveSupplierDto
             {
@@ -44,6 +44,7 @@ namespace Store.Test.Store.Core.Suppliers
 
             var entity = _mapper.Map<Supplier>(dto);
 
+            Assert.True(entity.Id == 0);
             Assert.Equal(dto.RucSupplier, entity.RucSupplier);
             Assert.Equal(dto.BusinessName, entity.BusinessName);
         }
