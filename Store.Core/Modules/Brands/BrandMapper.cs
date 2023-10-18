@@ -4,7 +4,7 @@ using Store.Db.Entities;
 
 namespace Store.Core.Modules.Brands
 {
-    internal class BrandMapper : Profile
+    public class BrandMapper : Profile
     {
         public BrandMapper()
         {
