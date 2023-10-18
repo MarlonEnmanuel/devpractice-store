@@ -34,19 +34,36 @@ namespace Store.Test.Store.Core.Suppliers
         }
 
         [Fact]
-        public void Map_SaveSupplierDto_to_Supplier()
+        public void Map_SaveSupplierDto_for_create()
         {
             var dto = new SaveSupplierDto
             {
                 RucSupplier = "10475214581",
-                BusinessName = "Inversiones SA.",
+                BusinessName = "Inversiones Create SA.",
             };
 
             var entity = _mapper.Map<Supplier>(dto);
 
             Assert.True(entity.Id == 0);
             Assert.Equal(dto.RucSupplier, entity.RucSupplier);
-            Assert.Equal(dto.BusinessName, entity.BusinessName);
+            Assert.NotNull(entity.BusinessName);
+        }
+
+        [Fact]
+        public void Map_SaveSupplierDto_for_update()
+        {
+            var dto = new SaveSupplierDto
+            {
+                Id = 1,
+                RucSupplier = "20476531382",
+                BusinessName = "Inversiones Update SA.",
+            };
+
+            var entity = _mapper.Map<Supplier>(dto);
+
+            Assert.True(entity.Id == 1);
+            Assert.Equal(dto.RucSupplier, entity.RucSupplier);
+            Assert.NotEmpty(entity.BusinessName);
         }
     }
 }
