@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Store.Core.Modules.Suppliers.Dtos;
 using Store.Core.Modules.Suppliers.Interfaces;
 using Store.Db;
@@ -10,11 +11,13 @@ namespace Store.Core.Modules.Suppliers
     {
         private readonly StoreDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IValidator _validator;
 
-        public SupplierService(StoreDbContext context, IMapper mapper)
+        public SupplierService(StoreDbContext context, IMapper mapper, IValidator<SaveSupplierDto> validator)
         {
             _context = context;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public void DeleteSupplier(int idSupplier)
