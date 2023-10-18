@@ -4,7 +4,7 @@ using Store.Db.Entities;
 
 namespace Store.Core.Modules.Categories
 {
-    internal class CategoryMapper : Profile
+    public class CategoryMapper : Profile
     {
         public CategoryMapper()
         {
