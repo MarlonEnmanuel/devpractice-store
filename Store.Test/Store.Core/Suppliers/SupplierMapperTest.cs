@@ -44,9 +44,9 @@ namespace Store.Test.Store.Core.Suppliers
 
             var entity = _mapper.Map<Supplier>(dto);
 
-            Assert.True(entity.Id == 0);
+            Assert.Equal(entity.Id, 0);
             Assert.Equal(dto.RucSupplier, entity.RucSupplier);
-            Assert.NotNull(entity.BusinessName);
+            Assert.Equal(dto.BusinessName, entity.BusinessName);
         }
 
         [Fact]
@@ -61,9 +61,9 @@ namespace Store.Test.Store.Core.Suppliers
 
             var entity = _mapper.Map<Supplier>(dto);
 
-            Assert.True(entity.Id == 1);
+            Assert.Equal(dto.Id, entity.Id);
             Assert.Equal(dto.RucSupplier, entity.RucSupplier);
-            Assert.NotEmpty(entity.BusinessName);
+            Assert.Equal(dto.BusinessName, entity.BusinessName);
         }
     }
 }
