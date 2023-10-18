@@ -4,7 +4,7 @@ using Store.Db.Entities;
 
 namespace Store.Core.Modules.Suppliers
 {
-    internal class SupplierMapper : Profile
+    public class SupplierMapper : Profile
     {
         public SupplierMapper()
         {
