@@ -13,8 +13,7 @@ namespace Store.Core.Modules.Suppliers.Validators
             RuleFor(x => x.RucSupplier)
                 .NotNull()
                 .NotEmpty()
-                .MinimumLength(11)
-                .MaximumLength(11);
+                .Length(11);
 
             RuleFor(x => x.BusinessName)
                 .NotNull()
