@@ -51,5 +51,50 @@ namespace Store.Test.Store.Core.Products
             Assert.Equal(2, dto.Categories?.Count);
             Assert.Equal("GLORIA", dto.BrandName);
         }
+
+        [Fact]
+        public void Map_SaveProductDto_For_Create()
+        {
+            var dto = new SaveProductDto
+            {
+                Name = "Ideal",
+                Description = "leche",
+                Price = 10,
+                BrandId = 1,
+                Stock = 10
+            };
+
+            var entity = _mapper.Map<Product>(dto);
+
+            Assert.Equal(entity.Id,0);
+            Assert.Equal(dto.Name,entity.Name);
+            Assert.Equal(dto.Description, entity.Description);
+            Assert.Equal(dto.Price, entity.Price);
+            Assert.Equal(dto.BrandId,entity.BrandId);
+            Assert.Equal(dto.Stock, entity.Stock);
+        }
+
+        [Fact]
+        public void Map_SaveProductDto_For_Update()
+        {
+            var dto = new SaveProductDto
+            {
+                Id = 1,
+                Name = "Glorias",
+                Description = "leche",
+                Price = 10,
+                BrandId = 1,
+                Stock = 10
+            };
+
+            var entity = _mapper.Map<Product>(dto);
+
+            Assert.Equal(dto.Id,entity.Id);
+            Assert.Equal(dto.Name, entity.Name);
+            Assert.Equal(dto.Description, entity.Description);
+            Assert.Equal(dto.Price, entity.Price);
+            Assert.Equal(dto.BrandId, entity.BrandId);
+            Assert.Equal(dto.Stock, entity.Stock);
+        }
     }
 }
