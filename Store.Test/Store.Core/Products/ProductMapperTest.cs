@@ -9,7 +9,6 @@ namespace Store.Test.Store.Core.Products
     public class ProductMapperTest
     {
         private readonly IMapper _mapper;
-
         public ProductMapperTest()
         {
             var config = new MapperConfiguration(cfg =>
@@ -37,7 +36,6 @@ namespace Store.Test.Store.Core.Products
                     new Category { Id = 2 , Name = "Cereales" , Description = ""}
                 },
                 Brand = new Brand { Name = "GLORIA" }
-
             };
 
             var dto = _mapper.Map<ProductDto>(entity);
@@ -66,11 +64,11 @@ namespace Store.Test.Store.Core.Products
 
             var entity = _mapper.Map<Product>(dto);
 
-            Assert.Equal(entity.Id,0);
-            Assert.Equal(dto.Name,entity.Name);
+            Assert.Equal(entity.Id, 0);
+            Assert.Equal(dto.Name, entity.Name);
             Assert.Equal(dto.Description, entity.Description);
             Assert.Equal(dto.Price, entity.Price);
-            Assert.Equal(dto.BrandId,entity.BrandId);
+            Assert.Equal(dto.BrandId, entity.BrandId);
             Assert.Equal(dto.Stock, entity.Stock);
         }
 
@@ -89,7 +87,7 @@ namespace Store.Test.Store.Core.Products
 
             var entity = _mapper.Map<Product>(dto);
 
-            Assert.Equal(dto.Id,entity.Id);
+            Assert.Equal(dto.Id, entity.Id);
             Assert.Equal(dto.Name, entity.Name);
             Assert.Equal(dto.Description, entity.Description);
             Assert.Equal(dto.Price, entity.Price);
