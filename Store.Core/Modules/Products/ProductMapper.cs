@@ -4,7 +4,7 @@ using Store.Db.Entities;
 
 namespace Store.Core.Modules.Products
 {
-    internal class ProductMapper : Profile
+    public class ProductMapper : Profile
     {
         public ProductMapper()
         {
