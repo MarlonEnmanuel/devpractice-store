@@ -16,6 +16,8 @@ namespace Store.Core.Modules.Security
     //    - Permitir solo una sesión por usuario
     // 2. Poder consulta el token desde la memoria
     // 3. Verificar si el token aun es valido para un usuario
+    //    -Token pertenezca al usuario a verificar
+    //    -Token aún esté vigente
     // 4. Caducar un token guardado en memoria
     // 5. Eliminar todos los tokens de la memoria
     // 6. Obtener todos los tokens de la memoria
@@ -41,6 +43,19 @@ namespace Store.Core.Modules.Security
                 Expiration = expiration,
             });
         }
+
+        public bool IsValidToken(string token)
+        {
+            var exists = _cache.Keys.Any(k => k == token );
+            
+            if (exists)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        //var status = _cache.Any(c => c.Value.);
     }
 
     public class CacheItem
