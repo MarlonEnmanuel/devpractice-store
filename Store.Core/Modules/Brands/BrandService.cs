@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using FluentValidation;
-using Store.Core.Modules.Brands.Dtos;
+﻿using Store.Core.Modules.Brands.Dtos;
 using Store.Core.Modules.Brands.Interfaces;
+using Store.Core.Modules.Shared.Interfaces;
 using Store.Db;
 using Store.Db.Entities;
 
@@ -10,27 +9,25 @@ namespace Store.Core.Modules.Brands
     public class BrandService : IBrandService
     {
         private readonly StoreDbContext _context;
-        private readonly IMapper _mapper;
-        private readonly IValidator<SaveBrandDto> _validator;
+        private readonly IDtoService _dtoService;
 
-        public BrandService(StoreDbContext context, IMapper mapper, IValidator<SaveBrandDto> validator)
+        public BrandService(StoreDbContext context, IDtoService dtoService)
         {
             _context = context;
-            _mapper = mapper;
-            _validator = validator;
+            _dtoService = dtoService;
         }
 
         public IList<BrandDto> GetBrandList()
         {
             var list = _context.Brands.ToList();
-            return _mapper.Map<IList<BrandDto>>(list);
+            return _dtoService.Map<IList<BrandDto>>(list);
         }
 
         public void SaveBrand(SaveBrandDto dto)
         {
-            _validator.ValidateAndThrow(dto);
+            _dtoService.Validate(dto);
 
-            var brand = _mapper.Map<Brand>(dto);
+            var brand = _dtoService.Map<Brand>(dto);
 
             _context.Brands.Add(brand);
             _context.SaveChanges();
@@ -43,7 +40,7 @@ namespace Store.Core.Modules.Brands
                 return;
             }
 
-            _validator.ValidateAndThrow(dto);
+            _dtoService.Validate(dto);
 
             var currentBrand = _context.Brands.Find(id);
             if (currentBrand == null)
@@ -51,7 +48,7 @@ namespace Store.Core.Modules.Brands
                 return;
             }
 
-            _mapper.Map(dto, currentBrand);
+            _dtoService.Map(dto, currentBrand);
             _context.SaveChanges();
         }
 
