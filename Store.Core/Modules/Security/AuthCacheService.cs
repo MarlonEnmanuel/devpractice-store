@@ -46,16 +46,11 @@ namespace Store.Core.Modules.Security
 
         public bool IsValidToken(string token)
         {
-            var exists = _cache.Keys.Any(k => k == token );
-            
-            if (exists)
-            {
-                return true;
-            }
-
-            return false;
+            var exists = _cache.TryGetValue(token, out var item);
+            return exists && item.Expiration >= GetNow();
         }
-        //var status = _cache.Any(c => c.Value.);
+
+        public virtual DateTime GetNow() => DateTime.Now;
     }
 
     public class CacheItem
