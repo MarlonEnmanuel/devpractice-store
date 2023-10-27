@@ -64,24 +64,24 @@ namespace Store.Test.Store.Core.Security
         }
 
         [Theory]
-        [InlineData("abcd1111",true)]
-        [InlineData("abcd2222",true)]
-        [InlineData("abcd3336",false)]
-        [InlineData("abcd4447",false)]
-        public void VerifyToken_ShouldBeValid(string token, bool showValid)
+        [InlineData("abcd1111", "uverify1", true)]
+        [InlineData("abcd2222", "uverify2", true)]
+        [InlineData("abcd3336", "uverify3", false)]
+        [InlineData("abcd4447", "uverify4", false)]
+        public void VerifyToken_ShouldBeValid(string token, string username, bool showValid)
         {
             _service._cache["abcd1111"] = new CacheItem() { Username = "uverify1", Expiration = DateTime.Now.AddHours(1)};
             _service._cache["abcd2222"] = new CacheItem() { Username = "uverify2", Expiration = DateTime.Now.AddHours(1) };
             _service._cache["abcd3333"] = new CacheItem() { Username = "uverify3", Expiration = DateTime.Now.AddHours(1) };
             _service._cache["abcd4444"] = new CacheItem() { Username = "uverify4", Expiration = DateTime.Now.AddHours(1) };
 
-            var resp1 = _service.IsValidToken(token);
+            var resp1 = _service.IsValidToken(token, username);
 
             Assert.Equal(showValid, resp1);
         }
 
         [Fact]
-        public void VerifyToken_VerifyExpirationDate()
+        public void IsValidToken_VerifyExpirationDate()
         {
             var nowMock = new DateTime(2023, 10, 1, 12, 0, 0);
 
@@ -92,16 +92,29 @@ namespace Store.Test.Store.Core.Security
             _service._cache["abcd1111"] = new CacheItem() { Username = "uverify1", Expiration = nowMock.AddHours(1) };
 
             nowMock = nowMock.AddMinutes(30);
-            var resp1 = _service.IsValidToken("abcd1111");
+            var resp1 = _service.IsValidToken("abcd1111", "uverify1");
             Assert.True(resp1);
 
             nowMock = nowMock.AddMinutes(30);
-            var resp2 = _service.IsValidToken("abcd1111");
+            var resp2 = _service.IsValidToken("abcd1111", "uverify1");
             Assert.True(resp2);
 
             nowMock = nowMock.AddMinutes(30);
-            var resp3 = _service.IsValidToken("abcd1111");
+            var resp3 = _service.IsValidToken("abcd1111", "uverify1");
             Assert.False(resp3);
+        }
+
+        [Fact]
+        public void IsValidToken_VerifyUsername()
+        {
+            _service._cache["abcd1111"] = new CacheItem() { Username = "uverify1", Expiration = DateTime.Now.AddMinutes(1) };
+
+            var resp1 = _service.IsValidToken("abcd1111", "uverify1");
+
+            var resp2 = _service.IsValidToken("abcd1111", "uverify2");
+
+            Assert.True(resp1);
+            Assert.False(resp2);
         }
 
     }
