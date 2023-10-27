@@ -1,4 +1,5 @@
-﻿using Store.Core.Modules.Security;
+﻿using Moq;
+using Store.Core.Modules.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,13 @@ namespace Store.Test.Store.Core.Security
 {
     public class AuthCacheServiceTest
     {
+        private Mock<AuthCacheService> _serviceMock;
         private AuthCacheService _service;
 
         public AuthCacheServiceTest()
         {
-            _service = new AuthCacheService();
+            _serviceMock = new Mock<AuthCacheService>();
+            _service = _serviceMock.Object;
         }
 
         [Fact]
@@ -76,5 +79,30 @@ namespace Store.Test.Store.Core.Security
 
             Assert.Equal(showValid, resp1);
         }
+
+        [Fact]
+        public void VerifyToken_VerifyExpirationDate()
+        {
+            var nowMock = new DateTime(2023, 10, 1, 12, 0, 0);
+
+            _serviceMock.Setup(s => s.GetNow())
+                        .Returns(() => nowMock);
+            _service = _serviceMock.Object;
+
+            _service._cache["abcd1111"] = new CacheItem() { Username = "uverify1", Expiration = nowMock.AddHours(1) };
+
+            nowMock = nowMock.AddMinutes(30);
+            var resp1 = _service.IsValidToken("abcd1111");
+            Assert.True(resp1);
+
+            nowMock = nowMock.AddMinutes(30);
+            var resp2 = _service.IsValidToken("abcd1111");
+            Assert.True(resp2);
+
+            nowMock = nowMock.AddMinutes(30);
+            var resp3 = _service.IsValidToken("abcd1111");
+            Assert.False(resp3);
+        }
+
     }
 }
