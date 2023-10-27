@@ -6,6 +6,8 @@ using Store.Core.Modules.Categories;
 using Store.Core.Modules.Categories.Interfaces;
 using Store.Core.Modules.Products;
 using Store.Core.Modules.Products.Interfaces;
+using Store.Core.Modules.Shared;
+using Store.Core.Modules.Shared.Interfaces;
 using Store.Core.Modules.Suppliers;
 using Store.Core.Modules.Suppliers.Interfaces;
 using Store.Db;
@@ -30,6 +32,7 @@ builder.Services.AddAutoMapper(Assembly.Load("Store.Core"));
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("Store.Core"));
 
 // Add Services
+builder.Services.AddSingleton<IDtoService, DtoService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
