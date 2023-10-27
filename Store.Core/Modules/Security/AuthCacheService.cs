@@ -12,12 +12,12 @@ namespace Store.Core.Modules.Security
     // Estructura del token -> { username, claims, roles, expiration }
 
     // Funcionalidad
-    // 👍 1. Poder registrar el token en la memoria cache (durante el login)
-    //    - Permitir solo una sesión por usuario
+    // 1. Poder registrar el token en la memoria cache (durante el login) 👍
+    //    - Permitir solo una sesión por usuario 👍
     // 2. Poder consulta el token desde la memoria
-    // 3. Verificar si el token aun es valido para un usuario
-    //    -Token pertenezca al usuario a verificar
-    //    -Token aún esté vigente
+    // 3. Verificar si el token aun es valido para un usuario 👍
+    //    - Token pertenezca al usuario a verificar
+    //    - Token aún esté vigente 👍
     // 4. Caducar un token guardado en memoria
     // 5. Eliminar todos los tokens de la memoria
     // 6. Obtener todos los tokens de la memoria
