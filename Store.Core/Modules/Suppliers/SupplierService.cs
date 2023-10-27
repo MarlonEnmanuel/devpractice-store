@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using Store.Core.Modules.Shared.Interfaces;
 using Store.Core.Modules.Suppliers.Dtos;
 using Store.Core.Modules.Suppliers.Interfaces;
 using Store.Db;
@@ -10,14 +9,12 @@ namespace Store.Core.Modules.Suppliers
     public class SupplierService : ISupplierService
     {
         private readonly StoreDbContext _context;
-        private readonly IMapper _mapper;
-        private readonly IValidator _validator;
+        private readonly IDtoService _dtoService;
 
-        public SupplierService(StoreDbContext context, IMapper mapper, IValidator<SaveSupplierDto> validator)
+        public SupplierService(StoreDbContext context, IDtoService dtoService)
         {
             _context = context;
-            _mapper = mapper;
-            _validator = validator;
+            _dtoService = dtoService;
         }
 
         public void DeleteSupplier(int idSupplier)
@@ -33,18 +30,18 @@ namespace Store.Core.Modules.Suppliers
         public IList<SupplierDto> GetSupplierFindAll()
         {
             var supplierList = _context.Suppliers.ToList();
-            return _mapper.Map<IList<SupplierDto>>(supplierList);
+            return _dtoService.Map<IList<SupplierDto>>(supplierList);
         }
 
         public SupplierDto GetSupplierById(int idSupplier)
         {
             var currentSupplier = _context.Suppliers.Find(idSupplier);
-            return _mapper.Map<SupplierDto>(currentSupplier);
+            return _dtoService.Map<SupplierDto>(currentSupplier);
         }
 
         public void SaveSupplier(SaveSupplierDto dto)
         {
-            var supplierNow = _mapper.Map<Supplier>(dto);
+            var supplierNow = _dtoService.Map<Supplier>(dto);
             _context.Suppliers.Add(supplierNow);
             _context.SaveChanges();
         }
