@@ -21,7 +21,8 @@ namespace Store.Core.Modules.Products
         public IList<ProductDto> GetProducts()
         {
             var list = _context.Products.Include(p => p.Categories)
-                                        .Include(p => p.Brand).ToList();
+                                        .Include(p => p.Brand)
+                                        .ToList();
 
             return _dtoService.Map<IList<ProductDto>>(list);
         }
