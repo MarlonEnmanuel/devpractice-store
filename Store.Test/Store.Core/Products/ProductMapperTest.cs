@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Store.Core.Modules.Categories;
-using Store.Core.Modules.Products;
 using Store.Core.Modules.Products.Dtos;
 using Store.Db.Entities;
 
@@ -8,16 +6,7 @@ namespace Store.Test.Store.Core.Products
 {
     public class ProductMapperTest
     {
-        private readonly IMapper _mapper;
-        public ProductMapperTest()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<ProductMapper>();
-                cfg.AddProfile<CategoryMapper>();
-            });
-            _mapper = config.CreateMapper();
-        }
+        private readonly IMapper _mapper = MockHelper.MapperInstance;
 
         [Fact]
         public void Map_Product_to_ProductDto()

@@ -3,13 +3,18 @@ using Store.Db.Entities;
 
 namespace Store.Test.Store.Core.Products
 {
-    public class ProductServiceTest : BaseTest
+    public class ProductServiceTest
     {
+        private readonly FakeStoreDb _fakeDb = new();
+
         private readonly ProductService _productService;
 
         public ProductServiceTest()
         {
-            _productService = new ProductService(_context, _dtoService);
+            var dtoServiceMock = MockHelper.GetDtoServiceMock();
+            var contextMock = MockHelper.GetStoreDbContextMock(_fakeDb);
+
+            _productService = new ProductService(contextMock.Object, dtoServiceMock.Object);
         }
 
         [Fact]
@@ -22,8 +27,8 @@ namespace Store.Test.Store.Core.Products
         [Fact]
         public void GetProducts_ShouldReturElements()
         {
-            _contextMock.Products.Add(new() { Id = 1, Name = "producto1" });
-            _contextMock.Products.Add(new() { Id = 2, Name = "producto2" });
+            _fakeDb.Products.Add(new() { Id = 1, Name = "producto1" });
+            _fakeDb.Products.Add(new() { Id = 2, Name = "producto2" });
 
             var result = _productService.GetProducts();
             Assert.NotEmpty(result);
@@ -33,8 +38,8 @@ namespace Store.Test.Store.Core.Products
         [Fact]
         public void GetProducts_ShouldReturWithCategories()
         {
-            _contextMock.Categories.Add(new() { Id = 9, Name = "Cat9" });
-            _contextMock.Products.Add(new() { Id = 1, Name = "Prod1", Categories = new List<Category>() { new() { Id = 9 } } });
+            _fakeDb.Categories.Add(new() { Id = 9, Name = "Cat9" });
+            _fakeDb.Products.Add(new() { Id = 1, Name = "Prod1", Categories = new List<Category>() { new() { Id = 9 } } });
 
             var result = _productService.GetProducts();
 
