@@ -99,6 +99,7 @@ namespace Store.Test.Store.Core
                              sourceList.Remove(entity);
                          }
                      });
+
             return setup.Returns(dbSetMock.Object);
         }
     }
