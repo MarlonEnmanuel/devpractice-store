@@ -1,4 +1,5 @@
-﻿using Store.Core.Modules.Categories.Dtos;
+﻿using AutoMapper.QueryableExtensions;
+using Store.Core.Modules.Categories.Dtos;
 using Store.Core.Modules.Categories.Interfaces;
 using Store.Core.Modules.Shared.Interfaces;
 using Store.Db;
@@ -37,7 +38,7 @@ namespace Store.Core.Modules.Categories
         {
             _dtoService.Validate(dto);
 
-            var currentCategory = _context.Categories.Find(id);
+            var currentCategory = _context.Categories.Where(x => x.Id == id).FirstOrDefault();
 
             if (currentCategory != null && currentCategory.Id == dto.Id)
             {
@@ -49,7 +50,7 @@ namespace Store.Core.Modules.Categories
 
         public void Delete(int id)
         {
-            var currentCategory = _context.Categories.Find(id);
+            var currentCategory = _context.Categories.Where(x => x.Id == id).FirstOrDefault();
 
             if (currentCategory != null)
             {
