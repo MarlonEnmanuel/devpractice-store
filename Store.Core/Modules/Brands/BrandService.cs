@@ -54,7 +54,7 @@ namespace Store.Core.Modules.Brands
 
         public void DeleteBrand(int id)
         {
-            var currentBrand = _context.Brands.Find(id);
+            var currentBrand = _context.Brands.Where(b => b.Id == id).FirstOrDefault();
             if (currentBrand == null)
             {
                 return;
