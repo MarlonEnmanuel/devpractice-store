@@ -1,7 +1,6 @@
 ﻿using Moq;
 using Store.Core.Modules.Brands;
 using Store.Core.Modules.Brands.Dtos;
-using Store.Core.Modules.Categories;
 using Store.Core.Modules.Shared;
 using Store.Db;
 using Store.Db.Entities;
@@ -57,20 +56,19 @@ namespace Store.Test.Store.Core.Brands
             Assert.Equal(2, result.Count());
         }
 
-        //[Fact]
-        //public void DeleteBrand_ShouldRemoveBrand()
-        //{
-        //    var Id = 1;
+        [Fact]
+        public void DeleteBrand_ShouldRemoveBrand()
+        {
+            _fakeDb.Brands.Add(new Brand { Id = 1, Name = "Brand 1", Description = "Description 1" });
+            _fakeDb.Brands.Add(new Brand { Id = 2, Name = "Brand 2", Description = "Description 2" });
 
-        //    _fakeDb.Brands.Add(new Brand { Id = 1, Name = "Brand 1", Description = "Description 1" });
-        //    _fakeDb.Brands.Add(new Brand { Id = 2, Name = "Brand 2", Description = "Description 2" });
+            _brandService.DeleteBrand(1);
 
-        //    _brandService.DeleteBrand(Id);
+            _contextMock.Verify(c => c.SaveChanges(), Times.Once);
 
-        //    _contextMock.Verify(c => c.SaveChanges(), Times.Once);
-
-        //    Assert.Single(_fakeDb.Brands);
-        //    Assert.NotEqual(1, _fakeDb.Brands[0].Id);
-        //}
+            Assert.Single(_fakeDb.Brands);
+            Assert.DoesNotContain(_fakeDb.Brands, b => b.Id == 1);
+            Assert.Contains(_fakeDb.Brands, b => b.Id == 2);
+        }
     }
 }
