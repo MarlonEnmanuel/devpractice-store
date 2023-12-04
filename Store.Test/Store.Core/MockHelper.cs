@@ -1,25 +1,29 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using Moq.Language;
+using Moq.EntityFrameworkCore;
 using Moq.Language.Flow;
 using Store.Core.Modules.Shared;
 using Store.Db;
-using System.Reflection;
 
 namespace Store.Test.Store.Core
 {
     public static class MockHelper
     {
-        public static readonly IMapper MapperInstance = LoadMappers();
+        public static readonly IMapper MapperInstance;
 
-        public static readonly IServiceProvider ValidatorServices = LoadValidators();
+        static MockHelper()
+        {
+            var configurarion = new MapperConfiguration(cfg => {
+                cfg.AddMaps("Store.Core");
+            });
+            MapperInstance = configurarion.CreateMapper();
+        }
 
         public static Mock<DtoService> GetDtoServiceMock()
         {
-            var dtoServiceMock = new Mock<DtoService>(MapperInstance, ValidatorServices);
+            var serviceProviderMock = new Mock<IServiceProvider>();
+            var dtoServiceMock = new Mock<DtoService>(MapperInstance, serviceProviderMock.Object);
 
             // Mock de Validate (para no validar)
             dtoServiceMock.Setup(s => s.Validate(It.IsAny<object>()))
@@ -42,65 +46,57 @@ namespace Store.Test.Store.Core
                        .Returns((CancellationToken token) => Task.FromResult(1));
 
             // Mock de los DBSets
-            contextMock.Setup(c => c.Categories).ReturnsDbSet(fakeDb.Categories);
-            contextMock.Setup(c => c.Products).ReturnsDbSet(fakeDb.Products);
-            contextMock.Setup(c => c.Suppliers).ReturnsDbSet(fakeDb.Suppliers);
-            contextMock.Setup(c => c.Brands).ReturnsDbSet(fakeDb.Brands);
+            contextMock.Setup(c => c.Categories).MockDbSet(fakeDb.Categories, c => c.Id);
+            contextMock.Setup(c => c.Products).MockDbSet(fakeDb.Products, p => p.Id);
+            contextMock.Setup(c => c.Suppliers).MockDbSet(fakeDb.Suppliers, s => s.Id);
+            contextMock.Setup(c => c.Brands).MockDbSet(fakeDb.Brands, b => b.Id);
 
             return contextMock;
         }
 
-        private static IMapper LoadMappers()
-        {
-            var configurarion = new MapperConfiguration(cfg => {
-                cfg.AddMaps(Assembly.Load("Store.Core"));
-            });
-            return configurarion.CreateMapper();
-        }
-
-        private static IServiceProvider LoadValidators()
-        {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddValidatorsFromAssembly(Assembly.Load("Store.Core"));
-            return serviceCollection.BuildServiceProvider();
-        }
-
-        private static IReturnsResult<TMock> ReturnsDbSet<TMock, TEntity>(this IReturns<TMock, DbSet<TEntity>> setup, List<TEntity> sourceList)
+        public static IReturnsResult<TMock> MockDbSet<TMock, TEntity>(
+            this ISetup<TMock, DbSet<TEntity>> setup,
+            List<TEntity> sourceList,
+            Func<TEntity, object> identifierSelector
+        )
             where TMock : class
             where TEntity : class
         {
-            var dbSetMock = new Mock<DbSet<TEntity>>();
+            TEntity? find(object[] ids)
+            {
+                if (ids == null || ids.Length == 0) return null;
+                object identifier = ids.Length == 1 ? ids[0] : string.Join(string.Empty, ids);
+                return sourceList.FirstOrDefault(e => identifierSelector(e).Equals(identifier));
+            }
 
-            // Mock para consultas
-            var queryable = sourceList.AsQueryable();
-            dbSetMock.As<IQueryable<TEntity>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            dbSetMock.As<IQueryable<TEntity>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            dbSetMock.As<IQueryable<TEntity>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            dbSetMock.As<IQueryable<TEntity>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+            var mock = new Mock<DbSet<TEntity>>();
 
             // Mock para Add
-            dbSetMock.Setup(d => d.Add(It.IsAny<TEntity>()))
-                     .Callback<TEntity>(sourceList.Add);
+            mock.Setup(d => d.Add(It.IsAny<TEntity>()))
+                .Callback<TEntity>(entity => sourceList.Add(entity));
 
             // Mock para AddRange
-            dbSetMock.Setup(d => d.AddRange(It.IsAny<IEnumerable<TEntity>>()))
-                     .Callback<IEnumerable<TEntity>>(entities => sourceList.AddRange(entities));
+            mock.Setup(d => d.AddRange(It.IsAny<IEnumerable<TEntity>>()))
+                .Callback<IEnumerable<TEntity>>(entities => sourceList.AddRange(entities));
 
             // Mock para Remove
-            dbSetMock.Setup(d => d.Remove(It.IsAny<TEntity>()))
-                     .Callback<TEntity>(entity => sourceList.Remove(entity));
+            mock.Setup(d => d.Remove(It.IsAny<TEntity>()))
+                .Callback<TEntity>(entity => sourceList.Remove(entity));
 
             // Mock para RemoveRange
-            dbSetMock.Setup(d => d.RemoveRange(It.IsAny<IEnumerable<TEntity>>()))
-                     .Callback<IEnumerable<TEntity>>(entities =>
-                     {
-                         foreach (var entity in entities)
-                         {
-                             sourceList.Remove(entity);
-                         }
-                     });
+            mock.Setup(d => d.RemoveRange(It.IsAny<IEnumerable<TEntity>>()))
+                .Callback<IEnumerable<TEntity>>(entities => { foreach (var e in entities) sourceList.Remove(e); });
 
-            return setup.Returns(dbSetMock.Object);
+            // Mock para Find
+            mock.Setup(m => m.Find(It.IsAny<object[]>()))
+                .Returns<object[]>(ids => find(ids));
+
+            // Mock para FindAsync
+            mock.Setup(m => m.FindAsync(It.IsAny<object[]>()))
+                .Returns<object[]>(ids => ValueTask.FromResult(find(ids)));
+
+            // Mock para consultas
+            return setup.ReturnsDbSet(sourceList, mock);
         }
     }
 }

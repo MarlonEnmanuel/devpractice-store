@@ -54,13 +54,13 @@ namespace Store.Core.Modules.Brands
 
         public void DeleteBrand(int id)
         {
-            var currentBrand = _context.Brands.Where(b => b.Id == id).FirstOrDefault();
+            var currentBrand = _context.Brands.Find(id);
             if (currentBrand == null)
             {
                 return;
             }
 
-            _context.Remove(currentBrand);
+            _context.Brands.Remove(currentBrand);
             _context.SaveChanges();
         }
     }
